@@ -13,13 +13,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.utils.Constants;
 
 public class Robot {
 
+    static final double DRIVE_GEAR_REDUCTION = 0.5; //Geared up 1:2
     public HardwareMap hwMap;
-
     public DcMotor frontLeft = null;
     public DcMotor frontRight = null;
     public DcMotor backLeft = null;
@@ -32,22 +31,8 @@ public class Robot {
     public BNO055IMU imu = null;
     public double ticks = 1120;
     public double wheelDiameter = 4;
-    public double inchesPerTick = ticks / (wheelDiameter * Math.PI);
+    public double inchesPerTick = (ticks * DRIVE_GEAR_REDUCTION) / (wheelDiameter * Math.PI);
     public LiftSetting currentLiftSetting = LiftSetting.LOW;
-
-    public enum LiftSetting {
-        LOW(0), MID(10), HIGH(20);
-
-        private int heightVal;
-
-        LiftSetting(int heightVal) {
-            this.heightVal = heightVal;
-        }
-
-        public int getHeightVal() {
-            return heightVal;
-        }
-    }
 
     //seperate into initauto and inittele bc of gyro
     public void init(HardwareMap hwMap) {
@@ -91,8 +76,6 @@ public class Robot {
         }
     }
 
-    //Drive Scheme 1
-
     /**
      * Certain power to left motors and right motors mainly for 6wd
      * Multiple wya to do this
@@ -111,6 +94,8 @@ public class Robot {
             backRight.setPower(rightPower);
         }
     }
+
+    //Drive Scheme 1
 
     public void driveXY(double xVal, double yVal) {
         if (Math.abs(yVal) > Constants.GAMEPAD_THRESHOLD && Math.abs(xVal) < Constants.GAMEPAD_THRESHOLD) { // North or South
@@ -166,12 +151,12 @@ public class Robot {
             frontRight.setTargetPosition(frontRight.getTargetPosition() + (int) (distance * inchesPerTick));
             backLeft.setTargetPosition(backLeft.getTargetPosition() + (int) (distance * inchesPerTick));
             backRight.setTargetPosition(backRight.getTargetPosition() - (int) (distance * inchesPerTick));
-        } else if (direction == Directions.ROTATE_RIGHT) {
+        } else if (direction == Directions.ROTATE_CW) {
             frontLeft.setTargetPosition(frontLeft.getTargetPosition() + (int) (distance * inchesPerTick));
             frontRight.setTargetPosition(frontRight.getTargetPosition() - (int) (distance * inchesPerTick));
             backLeft.setTargetPosition(backLeft.getTargetPosition() + (int) (distance * inchesPerTick));
             backRight.setTargetPosition(backRight.getTargetPosition() - (int) (distance * inchesPerTick));
-        } else if (direction == Directions.ROTATE_LEFT) {
+        } else if (direction == Directions.ROTATE_CCW) {
             frontLeft.setTargetPosition(frontLeft.getTargetPosition() - (int) (distance * inchesPerTick));
             frontRight.setTargetPosition(frontRight.getTargetPosition() + (int) (distance * inchesPerTick));
             backLeft.setTargetPosition(backLeft.getTargetPosition() - (int) (distance * inchesPerTick));
@@ -221,8 +206,7 @@ public class Robot {
     public void imuRotateTo(double desiredHeading, Directions direction, double TOLERANCE) {
         double currHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
 
-        //TODO: choose based on magnitude
-        if (direction.equals(Directions.ROTATE_LEFT)) {
+        if (direction.equals(Directions.ROTATE_CCW)) {
             while (Math.abs(currHeading - desiredHeading) > TOLERANCE) {
                 frontLeft.setPower(-0.3);
                 frontRight.setPower(0.3);
@@ -230,12 +214,41 @@ public class Robot {
                 backRight.setPower(0.3);
                 currHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
             }
-        } else if (direction.equals(Directions.ROTATE_RIGHT)) {
+        } else if (direction.equals(Directions.ROTATE_CW)) {
             while (Math.abs(currHeading - desiredHeading) > TOLERANCE) {
                 frontLeft.setPower(0.3);
                 frontRight.setPower(-0.3);
                 backLeft.setPower(0.3);
                 backRight.setPower(-0.3);
+                currHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+            }
+        }
+    }
+
+    public void imuRotateTo(double desiredHeading, double TOLERANCE) {
+        //mb convert desired to positive value too or throw error if neg.
+        double currHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+
+        //ConvertToPosHeading.
+        double posCurrHeading = (currHeading >= 0) ? currHeading : currHeading + 360;
+
+        if (desiredHeading - posCurrHeading > 180 || desiredHeading - posCurrHeading < 0) {
+            //Rotate CW
+            //mb chg curr to posHeading
+            while (Math.abs(currHeading - desiredHeading) > TOLERANCE) {
+                frontLeft.setPower(0.3);
+                frontRight.setPower(-0.3);
+                backLeft.setPower(0.3);
+                backRight.setPower(-0.3);
+                currHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+            }
+        } else if (desiredHeading - posCurrHeading < 180) {
+            //Rotate CCW
+            while (Math.abs(currHeading - desiredHeading) > TOLERANCE) {
+                frontLeft.setPower(-0.3);
+                frontRight.setPower(0.3);
+                backLeft.setPower(-0.3);
+                backRight.setPower(0.3);
                 currHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
             }
         }
@@ -261,5 +274,19 @@ public class Robot {
     public void closeGlyphArms() {
         arm1.setPosition(30);
         arm2.setPosition(0);
+    }
+
+    public enum LiftSetting {
+        LOW(0), MID(10), HIGH(20);
+
+        private int heightVal;
+
+        LiftSetting(int heightVal) {
+            this.heightVal = heightVal;
+        }
+
+        public int getHeightVal() {
+            return heightVal;
+        }
     }
 }
