@@ -203,6 +203,29 @@ public class Robot {
         liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    public void imuRotate(double angle, Directions direction, double TOLERANCE) {
+        double currHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        double desiredHeading = currHeading + angle;
+
+        if (direction == Directions.ROTATE_CW) {
+            while (Math.abs(currHeading - desiredHeading) > TOLERANCE) {
+                frontLeft.setPower(0.3);
+                frontRight.setPower(-0.3);
+                backLeft.setPower(0.3);
+                backRight.setPower(-0.3);
+                currHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+            }
+        } else if (direction == Directions.ROTATE_CCW) {
+            while (Math.abs(currHeading - desiredHeading) > TOLERANCE) {
+                frontLeft.setPower(-0.3);
+                frontRight.setPower(0.3);
+                backLeft.setPower(-0.3);
+                backRight.setPower(0.3);
+                currHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+            }
+        }
+    }
+
     public void imuRotateTo(double desiredHeading, Directions direction, double TOLERANCE) {
         double currHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
 
