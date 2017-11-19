@@ -14,6 +14,8 @@ public class StraightGrabWalkAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry.addData("Path:", "Close arms, 20 inches to Safe Zone, Open Arms, Back 5 inches");
+        telemetry.update();
+
         robot.init(hardwareMap);
 
         telemetry.addData("Status:", "Initialized");

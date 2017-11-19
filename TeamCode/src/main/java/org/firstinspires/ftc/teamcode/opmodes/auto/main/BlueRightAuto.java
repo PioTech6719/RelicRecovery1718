@@ -9,7 +9,8 @@ import org.firstinspires.ftc.teamcode.robot.Directions;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
 @Autonomous(name = "Blue Right w/ Color", group = "auto")
-public class BlueRightAutonomous extends LinearOpMode {
+public class BlueRightAuto extends LinearOpMode {
+
     private Robot robot = new Robot();
 
     @Override
