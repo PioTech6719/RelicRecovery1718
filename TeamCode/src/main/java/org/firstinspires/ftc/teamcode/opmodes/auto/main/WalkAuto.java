@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Directions;
 import org.firstinspires.ftc.teamcode.Robot;
 
-@Autonomous(name = "Auto Safe Zone Path", group = "main")
+@Autonomous(name = "Walk Auto", group = "main")
 public class WalkAuto extends LinearOpMode {
 
     private Robot robot = new Robot();

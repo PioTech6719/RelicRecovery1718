@@ -15,11 +15,10 @@ import java.util.Locale;
 @TeleOp(name = "Sensor - REV Gyro", group = "test")
 public class REVGyroTest extends OpMode {
 
-    private Robot robot = new Robot();
-
     // State used for updating telemetry
     Orientation angles;
     Acceleration gravity;
+    private Robot robot = new Robot();
 
     @Override
     public void init() {
@@ -69,11 +68,15 @@ public class REVGyroTest extends OpMode {
             robot.backLeft.setPower(0.4);
             robot.backRight.setPower(-0.4);
         } else if (gamepad1.a) {
-            robot.imuRotateTo(90, Directions.ROTATE_LEFT, 5);
+            robot.imuRotateTo(90, Directions.ROTATE_CCW, 5);
         } else if (gamepad1.b) {
-            robot.imuRotateTo(-90, Directions.ROTATE_RIGHT, 5);
+            robot.imuRotateTo(-90, Directions.ROTATE_CW, 5);
+        } else if (gamepad1.x) {
+            robot.imuRotateTo(90, 5);
+        } else if (gamepad1.y) {
+            robot.imuRotateTo(150, 5);
         } else if (gamepad1.right_bumper) {
-            angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         } else {
             robot.frontLeft.setPower(0.0);
             robot.frontRight.setPower(0.0);
