@@ -17,7 +17,7 @@ public class MainTeleOp extends OpMode{
         telemetry.addData("Status", "Initializing");
         telemetry.update();
 
-        robot.init(hardwareMap);
+        robot.initTele(hardwareMap);
         gamepad1.setJoystickDeadzone(0.1f);
         gamepad2.setJoystickDeadzone(0.1f);
 

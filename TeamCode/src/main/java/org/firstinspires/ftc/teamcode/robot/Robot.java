@@ -68,6 +68,29 @@ public class Robot {
         openGlyphArms();
     }
 
+    public void initTele(HardwareMap hwMap) {
+        this.hwMap = hwMap;
+
+        frontLeft = hwMap.get(DcMotor.class, "front_left");
+        frontRight = hwMap.get(DcMotor.class, "front_right");
+        backLeft = hwMap.get(DcMotor.class, "back_left");
+        backRight = hwMap.get(DcMotor.class, "back_right");
+        liftMotor = hwMap.get(DcMotor.class, "liftMotor");
+        ballPush = (Servo) hwMap.get("ball_push");
+        arm1 = hwMap.get(Servo.class, "arm1");
+        arm2 = hwMap.get(Servo.class, "arm2");
+        colorSensor = hwMap.get(ColorSensor.class, "Color_Sensor");
+
+        frontLeft.setDirection(DcMotor.Direction.FORWARD);
+        frontRight.setDirection(DcMotor.Direction.REVERSE);
+        backLeft.setDirection(DcMotor.Direction.FORWARD);
+        backRight.setDirection(DcMotor.Direction.REVERSE);
+        liftMotor.setDirection(DcMotor.Direction.FORWARD);
+
+        ballArmReset();
+        openGlyphArms();
+    }
+
     public int getColor() {
         if (colorSensor.red() > colorSensor.blue()) {
             return Color.RED;
