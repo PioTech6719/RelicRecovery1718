@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmodes.auto.main;
 
-import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -17,6 +15,8 @@ public class WalkAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry.addData("Path:", "20 inches to Safe Zone");
+        telemetry.update();
+
         robot.init(hardwareMap);
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
