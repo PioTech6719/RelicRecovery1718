@@ -8,16 +8,16 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.robot.Directions;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
-@Autonomous(name = "Blue Right w/ Color", group = "auto")
-public class BlueRightAuto extends LinearOpMode {
+@Autonomous(name = "Blue Left w/ Color", group = "auto")
+public class BlueLeftAuto extends LinearOpMode {
 
     private Robot robot = new Robot();
 
     @Override
     public void runOpMode() throws InterruptedException {
-        telemetry.addData("Path:", "Close arms, 4 South, Arm Down, Knock Ball, 5 North, 20 West, " +
-                "Rotate 180 CCW, Open arms, 20 North, 5 South");
-        telemetry.update();
+        telemetry.addData("Orient:", "Back facing jewels w/ glyph in middle of arms");
+        telemetry.addData("Path:", "Close arms, 4 South, Knock Ball, 5 North, 13 West, 12 North, " +
+                "Rotate to 90 CCW, Open arms, 20 North, 5 South");
 
         robot.init(hardwareMap);
 
@@ -46,12 +46,13 @@ public class BlueRightAuto extends LinearOpMode {
 
         robot.move(this, Directions.NORTH, 5);
 
-        robot.move(this, Directions.WEST, 20);
-        robot.imuRotate(180, Directions.ROTATE_CCW, 5); //rotateto or does this work??
+        robot.move(this, Directions.WEST, 13);
+        robot.move(this, Directions.NORTH, 12);
+        robot.imuRotateTo(90, Directions.ROTATE_CCW, 5); //does this work or rotate? or simple rotateto?
 
         robot.openGlyphArms();
-        robot.move(this, Directions.NORTH, 20);
 
+        robot.move(this, Directions.NORTH, 20);
         robot.move(this, Directions.SOUTH, 5);
 
         robot.ballArmReset();

@@ -203,6 +203,7 @@ public class Robot {
         liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    //Why specify dir when angle magnitude determines direction
     public void imuRotate(double angle, Directions direction, double TOLERANCE) {
         double currHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         double desiredHeading = currHeading + angle;

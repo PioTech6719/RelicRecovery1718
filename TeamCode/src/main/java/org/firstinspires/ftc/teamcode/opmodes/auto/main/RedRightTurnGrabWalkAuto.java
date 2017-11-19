@@ -15,7 +15,7 @@ public class RedRightTurnGrabWalkAuto extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         telemetry.addData("Path:", "Close arms, 20 inches north, 90 CW, Open Arms, 20 inches north, Back 5 inches");
         telemetry.update();
-        
+
         robot.init(hardwareMap);
 
         telemetry.addData("Status:", "Initialized");

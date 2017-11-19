@@ -8,14 +8,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.robot.Directions;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
-@Autonomous(name = "Blue Right w/ Color", group = "auto")
-public class BlueRightAuto extends LinearOpMode {
+@Autonomous(name = "Red Right w/ Color", group = "auto")
+public class RedRightAuto extends LinearOpMode {
 
     private Robot robot = new Robot();
 
     @Override
     public void runOpMode() throws InterruptedException {
-        telemetry.addData("Path:", "Close arms, 4 South, Arm Down, Knock Ball, 5 North, 20 West, " +
+        telemetry.addData("Path:", "Close arms, 4 South, Arm Down, Knock Ball, 5 North, 20 East, " +
                 "Rotate 180 CCW, Open arms, 20 North, 5 South");
         telemetry.update();
 
@@ -32,7 +32,7 @@ public class BlueRightAuto extends LinearOpMode {
         robot.ballArmDown();
         sleep(1500);
 
-        if (robot.getColor() == Color.BLUE) {
+        if (robot.getColor() == Color.RED) {
             robot.imuRotate(15, Directions.ROTATE_CCW, 3);
             robot.ballArmUp();
             sleep(1500);
@@ -46,7 +46,7 @@ public class BlueRightAuto extends LinearOpMode {
 
         robot.move(this, Directions.NORTH, 5);
 
-        robot.move(this, Directions.WEST, 20);
+        robot.move(this, Directions.EAST, 20);
         robot.imuRotate(180, Directions.ROTATE_CCW, 5); //rotateto or does this work??
 
         robot.openGlyphArms();
