@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode.opmodes.auto.main;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Directions;
-import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.robot.Directions;
+import org.firstinspires.ftc.teamcode.robot.Robot;
 
 @Autonomous(name = "Walk Auto", group = "auto")
 public class WalkAuto extends LinearOpMode {

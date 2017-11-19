@@ -1,9 +1,12 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.opmodes.auto.main;
 
 import android.graphics.Color;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.teamcode.robot.Directions;
+import org.firstinspires.ftc.teamcode.robot.Robot;
 
 @Autonomous(name = "Blue Right w/ Color", group = "auto")
 public class BlueRightAutonomous extends LinearOpMode {
