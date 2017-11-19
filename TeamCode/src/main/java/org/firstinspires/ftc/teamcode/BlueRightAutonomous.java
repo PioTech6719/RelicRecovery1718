@@ -5,7 +5,7 @@ import android.graphics.Color;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "Blue Right Auto w/ Color", group = "auto")
+@Autonomous(name = "Blue Right w/ Color", group = "auto")
 public class BlueRightAutonomous extends LinearOpMode {
     private Robot robot = new Robot();
 
