@@ -3,14 +3,14 @@ package org.firstinspires.ftc.teamcode.opmodes.auto.main;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.robot.Directions;
-import org.firstinspires.ftc.teamcode.robot.Robot;
+import org.firstinspires.ftc.teamcode.hardware.Directions;
+import org.firstinspires.ftc.teamcode.hardware.Prometheus;
 import org.firstinspires.ftc.teamcode.utils.AutoTransitioner;
 
 @Autonomous(name = "Walk Auto", group = "auto")
 public class WalkAuto extends LinearOpMode {
 
-    private Robot robot = new Robot();
+    private Prometheus robot = new Prometheus();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -22,7 +22,7 @@ public class WalkAuto extends LinearOpMode {
         telemetry.addData("Status:", "Initialized");
         telemetry.update();
 
-        AutoTransitioner.transitionOnStop(this, "Robot TeleOp 1");
+        AutoTransitioner.transitionOnStop(this, "Prometheus TeleOp 1");
         waitForStart();
 
         robot.move(this, Directions.NORTH, 15);

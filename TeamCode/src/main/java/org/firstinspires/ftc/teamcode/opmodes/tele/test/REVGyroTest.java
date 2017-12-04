@@ -9,8 +9,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.robot.Directions;
-import org.firstinspires.ftc.teamcode.robot.Robot;
+import org.firstinspires.ftc.teamcode.hardware.Directions;
+import org.firstinspires.ftc.teamcode.hardware.Prometheus;
 
 import java.util.Locale;
 
@@ -20,7 +20,7 @@ public class REVGyroTest extends OpMode {
     // State used for updating telemetry
     Orientation angles;
     Acceleration gravity;
-    private Robot robot = new Robot();
+    private Prometheus robot = new Prometheus();
 
     @Override
     public void init() {
@@ -31,7 +31,7 @@ public class REVGyroTest extends OpMode {
 
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
-        // step (using the FTC Robot Controller app on the phone).
+        // step (using the FTC Prometheus Controller app on the phone).
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         telemetry.addData("Status", "Initialized");

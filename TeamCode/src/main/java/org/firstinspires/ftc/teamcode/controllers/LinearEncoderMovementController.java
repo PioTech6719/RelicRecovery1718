@@ -2,15 +2,15 @@ package org.firstinspires.ftc.teamcode.controllers;
 
 import android.support.annotation.NonNull;
 
-import org.firstinspires.ftc.teamcode.robot.Directions;
-import org.firstinspires.ftc.teamcode.robot.Robot;
+import org.firstinspires.ftc.teamcode.hardware.Directions;
+import org.firstinspires.ftc.teamcode.hardware.Prometheus;
 import org.firstinspires.ftc.teamcode.utils.Constants;
 
 public class LinearEncoderMovementController {
 
-    private Robot robot = null;
+    private Prometheus robot = null;
 
-    public LinearEncoderMovementController(@NonNull Robot robot) {
+    public LinearEncoderMovementController(@NonNull Prometheus robot) {
         this.robot = robot;
     }
 

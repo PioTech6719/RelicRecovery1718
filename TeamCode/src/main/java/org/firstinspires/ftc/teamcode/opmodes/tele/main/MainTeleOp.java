@@ -3,13 +3,13 @@ package org.firstinspires.ftc.teamcode.opmodes.tele.main;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.robot.Robot;
+import org.firstinspires.ftc.teamcode.hardware.Prometheus;
 import org.firstinspires.ftc.teamcode.utils.Constants;
 
-@TeleOp(name = "Robot TeleOp 1", group = "main")
+@TeleOp(name = "Prometheus TeleOp 1", group = "main")
 public class MainTeleOp extends OpMode{
 
-    private Robot robot = new Robot();
+    private Prometheus robot = new Prometheus();
     private double defaultLinearSpeed = 1.0;
 
     @Override
@@ -116,19 +116,19 @@ public class MainTeleOp extends OpMode{
 
         //Encoder Lift Control
         if (gamepad2.y) {
-            Robot.LiftSetting desiredLiftSetting = Robot.LiftSetting.HIGH;
-            if (robot.currentLiftSetting == Robot.LiftSetting.LOW) {
-                desiredLiftSetting = Robot.LiftSetting.MID;
-            } else if (robot.currentLiftSetting == Robot.LiftSetting.MID) {
-                desiredLiftSetting = Robot.LiftSetting.HIGH;
+            Prometheus.LiftSetting desiredLiftSetting = Prometheus.LiftSetting.HIGH;
+            if (robot.currentLiftSetting == Prometheus.LiftSetting.LOW) {
+                desiredLiftSetting = Prometheus.LiftSetting.MID;
+            } else if (robot.currentLiftSetting == Prometheus.LiftSetting.MID) {
+                desiredLiftSetting = Prometheus.LiftSetting.HIGH;
             }
             robot.setLiftSystem(desiredLiftSetting);
         } else if (gamepad2.a) {
-            Robot.LiftSetting desiredLiftSetting = Robot.LiftSetting.LOW;
-            if (robot.currentLiftSetting == Robot.LiftSetting.MID) {
-                desiredLiftSetting = Robot.LiftSetting.LOW;
-            } else if (robot.currentLiftSetting == Robot.LiftSetting.HIGH) {
-                desiredLiftSetting = Robot.LiftSetting.MID;
+            Prometheus.LiftSetting desiredLiftSetting = Prometheus.LiftSetting.LOW;
+            if (robot.currentLiftSetting == Prometheus.LiftSetting.MID) {
+                desiredLiftSetting = Prometheus.LiftSetting.LOW;
+            } else if (robot.currentLiftSetting == Prometheus.LiftSetting.HIGH) {
+                desiredLiftSetting = Prometheus.LiftSetting.MID;
             }
             robot.setLiftSystem(desiredLiftSetting);
         }

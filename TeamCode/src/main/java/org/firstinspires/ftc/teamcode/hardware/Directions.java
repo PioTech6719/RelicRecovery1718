@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.robot;
+package org.firstinspires.ftc.teamcode.hardware;
 
 public enum Directions {
     NORTH, SOUTH, EAST, WEST,

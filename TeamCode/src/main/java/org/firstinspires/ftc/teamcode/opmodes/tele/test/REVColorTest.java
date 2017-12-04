@@ -3,12 +3,12 @@ package org.firstinspires.ftc.teamcode.opmodes.tele.test;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.robot.Robot;
+import org.firstinspires.ftc.teamcode.hardware.Prometheus;
 
 @TeleOp(name = "Sensor - Color Sensor", group = "test")
 public class REVColorTest extends OpMode {
 
-    private Robot robot = new Robot();
+    private Prometheus robot = new Prometheus();
 
     @Override
     public void init() {

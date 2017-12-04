@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.robot;
+package org.firstinspires.ftc.teamcode.hardware;
 
 import android.graphics.Color;
 
@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.utils.Constants;
 
-public class Robot {
+public class Prometheus {
 
     static final double DRIVE_GEAR_REDUCTION = 0.5; //Geared up 1:2
     public HardwareMap hwMap = null;

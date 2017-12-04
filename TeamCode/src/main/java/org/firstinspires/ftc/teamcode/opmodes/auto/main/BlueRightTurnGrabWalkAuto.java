@@ -3,13 +3,13 @@ package org.firstinspires.ftc.teamcode.opmodes.auto.main;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.robot.Directions;
-import org.firstinspires.ftc.teamcode.robot.Robot;
+import org.firstinspires.ftc.teamcode.hardware.Directions;
+import org.firstinspires.ftc.teamcode.hardware.Prometheus;
 
 @Autonomous(name = "Blue Right Turn Grab Walk", group = "auto")
 public class BlueRightTurnGrabWalkAuto extends LinearOpMode {
 
-    private Robot robot = new Robot();
+    private Prometheus robot = new Prometheus();
 
     @Override
     public void runOpMode() throws InterruptedException {
