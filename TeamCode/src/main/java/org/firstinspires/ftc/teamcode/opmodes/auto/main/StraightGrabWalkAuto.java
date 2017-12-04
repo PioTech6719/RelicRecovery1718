@@ -25,7 +25,7 @@ public class StraightGrabWalkAuto extends LinearOpMode {
         waitForStart();
 
         robot.closeGlyphArms();
-        robot.move(this, Directions.NORTH, 20);
+        robot.move(this, Directions.NORTH, 15);
         robot.openGlyphArms();
         robot.move(this, Directions.SOUTH, 5);
 

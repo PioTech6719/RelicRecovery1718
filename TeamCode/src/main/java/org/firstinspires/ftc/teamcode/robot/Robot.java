@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -18,7 +19,7 @@ import org.firstinspires.ftc.teamcode.utils.Constants;
 public class Robot {
 
     static final double DRIVE_GEAR_REDUCTION = 0.5; //Geared up 1:2
-    public HardwareMap hwMap;
+    public HardwareMap hwMap = null;
     public DcMotor frontLeft = null;
     public DcMotor frontRight = null;
     public DcMotor backLeft = null;
@@ -33,6 +34,7 @@ public class Robot {
     public double wheelDiameter = 4;
     public double inchesPerTick = (ticks * DRIVE_GEAR_REDUCTION) / (wheelDiameter * Math.PI);
     public LiftSetting currentLiftSetting = LiftSetting.LOW;
+    private ElapsedTime time = new ElapsedTime();
 
     //seperate into initauto and inittele bc of gyro
     public void init(HardwareMap hwMap) {
@@ -148,6 +150,7 @@ public class Robot {
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        opMode.idle();
 
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -191,13 +194,20 @@ public class Robot {
         backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        frontLeft.setPower(0.7);
-        frontRight.setPower(0.7);
-        backLeft.setPower(0.7);
-        backRight.setPower(0.7);
+        if (direction == Directions.NORTH) {
+            frontLeft.setPower(0.5);
+            frontRight.setPower(0.5);
+            backLeft.setPower(0.5);
+            backRight.setPower(0.5);
+        } else if (direction == Directions.SOUTH) {
+            frontLeft.setPower(-0.5);
+            frontRight.setPower(-0.5);
+            backLeft.setPower(-0.5);
+            backRight.setPower(-0.5);
+        }
 
-        while (opMode.opModeIsActive() &&
-                (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy())) {}
+        while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
+        }
 
         frontLeft.setPower(0);
         frontRight.setPower(0);
@@ -208,6 +218,66 @@ public class Robot {
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void move(double lspeed, double rspeed, LinearOpMode opMode, Directions direction, int distance, double timeout) {
+        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        opMode.idle();
+
+        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        int leftTarget = (frontLeft.getCurrentPosition() + backLeft.getCurrentPosition()) / 2 +
+                (int) (distance * inchesPerTick);
+        int rightTarget = (frontRight.getCurrentPosition() + backRight.getCurrentPosition()) / 2 +
+                (int) (distance * inchesPerTick);
+        time.reset();
+
+        while ((time.seconds() < timeout) && (Math.abs(frontLeft.getCurrentPosition() + backLeft.getCurrentPosition()) / 2 < leftTarget && Math.abs(frontRight.getCurrentPosition() + backRight.getCurrentPosition()) / 2 < rightTarget)) {
+            double rem = (Math.abs(frontLeft.getCurrentPosition()) + Math.abs(backLeft.getCurrentPosition()) + Math.abs(frontRight.getCurrentPosition()) + Math.abs(backRight.getCurrentPosition())) / 4;
+
+            double nlSpeed = 0;
+            double nrSpeed = 0;
+
+            double R = time.seconds();
+            if (R < 4) {
+                double ramp = R / 4;
+                nlSpeed = lspeed * ramp;
+                nrSpeed = rspeed * ramp;
+            } else if (rem > (1000)) {
+                nlSpeed = lspeed;
+                nrSpeed = rspeed;
+            } else if (rem > (200) && (0.5 * .2) > 0.1 && (0.5 * .2) > .1) {
+                nlSpeed = lspeed * .2;
+                nrSpeed = rspeed * .2;
+            }
+
+            frontLeft.setPower(nlSpeed);
+            frontRight.setPower(nrSpeed);
+            backLeft.setPower(nlSpeed);
+            backRight.setPower(nrSpeed);
+        }
+
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
+
+        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setLiftSystem(LiftSetting desiredLiftSetting) {

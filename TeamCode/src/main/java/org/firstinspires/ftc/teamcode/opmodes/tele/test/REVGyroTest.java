@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 
 import java.util.Locale;
 
-@TeleOp(name = "Sensor - REV Gyro", group = "test")
+@TeleOp(name = "Sensor - REV Gyro Sensor", group = "test")
 public class REVGyroTest extends OpMode {
 
     // State used for updating telemetry

@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.teamcode.utils.Constants;
 
-@TeleOp(name="Main TeleOp", group="main")
+@TeleOp(name = "Robot TeleOp 1", group = "main")
 public class MainTeleOp extends OpMode{
 
     private Robot robot = new Robot();
