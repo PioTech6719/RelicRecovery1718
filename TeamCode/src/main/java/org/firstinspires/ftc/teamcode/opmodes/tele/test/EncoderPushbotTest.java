@@ -31,6 +31,7 @@ public class EncoderPushbotTest extends LinearOpMode {
         telemetry.addData("Right Front: ", rightFrontMotor.getCurrentPosition());
         telemetry.addData("Left Rear: ", leftRearMotor.getCurrentPosition());
         telemetry.addData("Right Rear: ", rightRearMotor.getCurrentPosition());
+        telemetry.update();
 
 
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -84,15 +85,13 @@ public class EncoderPushbotTest extends LinearOpMode {
                 rightFrontMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 leftRearMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 rightRearMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                this.idle();
             }
 
             telemetry.addData("Left Front: ", leftFrontMotor.getCurrentPosition());
             telemetry.addData("Right Front: ", rightFrontMotor.getCurrentPosition());
             telemetry.addData("Left Rear: ", leftRearMotor.getCurrentPosition());
             telemetry.addData("Right Rear: ", rightRearMotor.getCurrentPosition());
+            telemetry.update();
         }
-
-        stop();
     }
 }
