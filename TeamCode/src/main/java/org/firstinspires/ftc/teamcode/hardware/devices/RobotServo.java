@@ -7,25 +7,41 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardwareDevice;
 import org.firstinspires.ftc.teamcode.hardware.controllers.RobotServoController;
 
-public class RobotServo {
+public class RobotServo extends RobotHardwareDevice {
 
-    private RobotServoController controller = null;
-    private Servo servo = null;
+    private RobotServoController servoController = null;
 
-    private String name = "";
     private int port = -1;
     private double currentPosition = -1.0;
     private Servo.Direction currentDirection = null;
     private int SPEED = 1;
 
-    public RobotServo(@NonNull RobotServoController controller, @NonNull Servo servo, String name) {
-        this.controller = controller;
-        this.servo = servo;
+    public RobotServo(@NonNull Servo servo, String name) {
+        super(servo, name);
+
         this.port = servo.getPortNumber();
         this.currentPosition = servo.getPosition();
         this.currentDirection = servo.getDirection();
+    }
+
+    public RobotServo(@NonNull RobotServoController servoController, @NonNull Servo servo, String name) {
+        super(servo, name);
+
+        this.servoController = servoController;
+        this.port = servo.getPortNumber();
+        this.currentPosition = servo.getPosition();
+        this.currentDirection = servo.getDirection();
+    }
+
+    public RobotServoController getServoController() {
+        return servoController;
+    }
+
+    public void setServoController(@NonNull RobotServoController servoController) {
+        this.servoController = servoController;
     }
 
     public int getPort() {
@@ -33,11 +49,11 @@ public class RobotServo {
     }
 
     public double getPosition() {
-        return servo.getPosition();
+        return ((RobotServo) getHardwareDevice()).getPosition();
     }
 
     public void setPosition(double position) {
-        servo.setPosition(position);
+        ((RobotServo) getHardwareDevice()).setPosition(position);
     }
 
     public void slowSetPosition(double position) {
@@ -58,10 +74,10 @@ public class RobotServo {
                     //Detect if speed will overreach desired position
                     if (position - currentPosition < customSpeed) {
                         //If adding speed will overreach, then simply set to position
-                        servo.setPosition(position);
+                        ((RobotServo) getHardwareDevice()).setPosition(position);
                     } else {
                         //Otherwise increment by speed
-                        servo.setPosition(currentPosition + customSpeed);
+                        ((RobotServo) getHardwareDevice()).setPosition(currentPosition + customSpeed);
                     }
 
                     while (((LinearOpMode) Robot.getOpMode()).opModeIsActive() && time.milliseconds() < 100) {
@@ -76,11 +92,11 @@ public class RobotServo {
                     //Detect if speed will underreach desired position
                     if (Math.abs(position - currentPosition) < customSpeed) {
                         //If subtracting speed will underreach, then simply set to position
-                        servo.setPosition(position);
+                        ((RobotServo) getHardwareDevice()).setPosition(position);
                         currentPosition = position;
                     } else {
                         //Otherwise decrement by speed
-                        servo.setPosition(currentPosition - customSpeed);
+                        ((RobotServo) getHardwareDevice()).setPosition(currentPosition - customSpeed);
                         currentPosition = currentPosition - customSpeed;
                     }
 
@@ -99,10 +115,10 @@ public class RobotServo {
                     //Detect if speed will overreach desired position
                     if (position - currentPosition < customSpeed) {
                         //If adding speed will overreach, then simply set to position
-                        servo.setPosition(position);
+                        ((RobotServo) getHardwareDevice()).setPosition(position);
                     } else {
                         //Otherwise increment by speed
-                        servo.setPosition(currentPosition + customSpeed);
+                        ((RobotServo) getHardwareDevice()).setPosition(currentPosition + customSpeed);
                     }
 
                     while (time.milliseconds() < 100) {
@@ -116,11 +132,11 @@ public class RobotServo {
                     //Detect if speed will underreach desired position
                     if (Math.abs(position - currentPosition) < customSpeed) {
                         //If subtracting speed will underreach, then simply set to position
-                        servo.setPosition(position);
+                        ((RobotServo) getHardwareDevice()).setPosition(position);
                         currentPosition = position;
                     } else {
                         //Otherwise decrement by speed
-                        servo.setPosition(currentPosition - customSpeed);
+                        ((RobotServo) getHardwareDevice()).setPosition(currentPosition - customSpeed);
                         currentPosition = currentPosition - customSpeed;
                     }
 
@@ -137,6 +153,7 @@ public class RobotServo {
     }
 
     public void setDirection(Servo.Direction currentDirection) {
+        ((RobotServo) getHardwareDevice()).setDirection(currentDirection);
         this.currentDirection = currentDirection;
     }
 }

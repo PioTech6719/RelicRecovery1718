@@ -4,21 +4,21 @@ import android.support.annotation.NonNull;
 
 import com.qualcomm.robotcore.hardware.ServoController;
 
+import org.firstinspires.ftc.teamcode.hardware.RobotHardwareDevice;
 import org.firstinspires.ftc.teamcode.hardware.devices.RobotServo;
 
 import java.util.ArrayList;
 
-public class RobotServoController {
+public class RobotServoController extends RobotHardwareDevice {
 
-    private ServoController servoController = null;
     private ArrayList<RobotServo> servos = new ArrayList<>();
 
-    public RobotServoController(@NonNull ServoController servoController) {
-        this.servoController = servoController;
+    public RobotServoController(@NonNull ServoController servoController, String name) {
+        super(servoController, name);
     }
 
-    public RobotServoController(@NonNull ServoController servoController, RobotServo... servos) {
-        this.servoController = servoController;
+    public RobotServoController(@NonNull ServoController servoController, String name, RobotServo... servos) {
+        super(servoController, name);
 
         for (RobotServo robotServo : servos) {
             addServo(robotServo);
@@ -35,10 +35,10 @@ public class RobotServoController {
     }
 
     public void enableController() {
-        servoController.pwmEnable();
+        ((ServoController) getHardwareDevice()).pwmEnable();
     }
 
     public void disableController() {
-        servoController.pwmDisable();
+        ((ServoController) getHardwareDevice()).pwmDisable();
     }
 }

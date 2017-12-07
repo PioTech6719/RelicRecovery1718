@@ -4,12 +4,17 @@ import android.support.annotation.NonNull;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.util.RobotLog;
 
+import org.firstinspires.ftc.teamcode.hardware.controllers.RobotMotorController;
 import org.firstinspires.ftc.teamcode.hardware.controllers.RobotServoController;
+import org.firstinspires.ftc.teamcode.hardware.devices.RobotMotor;
+import org.firstinspires.ftc.teamcode.hardware.devices.RobotServo;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -17,8 +22,11 @@ import java.util.Map;
 public class Robot {
 
     private static OpMode opMode = null;
-    private static ArrayList<RobotServoController> robotServoControllers = new ArrayList<>();
-    private static ArrayList<DcMotor> robotMotors = new ArrayList<>();
+
+    private ArrayList<RobotMotorController> robotMotorControllers = new ArrayList<>();
+    private ArrayList<RobotServoController> robotServoControllers = new ArrayList<>();
+    private ArrayList<RobotMotor> robotMotors = new ArrayList<>();
+    private ArrayList<RobotServo> robotServos = new ArrayList<>();
 
     public Robot(OpMode opMode) {
         Robot.opMode = opMode;
@@ -28,8 +36,20 @@ public class Robot {
         return opMode;
     }
 
-    public static ArrayList<RobotServoController> getRobotServoControllers() {
+    public ArrayList<RobotMotorController> getRobotMotorControllers() {
+        return robotMotorControllers;
+    }
+
+    public ArrayList<RobotServoController> getRobotServoControllers() {
         return robotServoControllers;
+    }
+
+    public ArrayList<RobotMotor> getRobotMotors() {
+        return robotMotors;
+    }
+
+    public ArrayList<RobotServo> getRobotServos() {
+        return robotServos;
     }
 
     /**
@@ -46,6 +66,7 @@ public class Robot {
             if (!item.getKey().equalsIgnoreCase(name)) {
                 continue;
             }
+
             return item.getValue();
         }
         opMode.telemetry.addLine("ERROR: " + name + " not found!");
@@ -53,13 +74,52 @@ public class Robot {
         return null;
     }
 
-    public void addMotor(String name) {
-        robotMotors.add(getOrNull(getOpMode().hardwareMap.dcMotor, name));
+    private RobotHardwareDevice getDevice(Class deviceType, String deviceName) {
+        if (deviceType.equals(DcMotorController.class)) {
+            return new RobotMotorController(getOrNull(getOpMode().hardwareMap.dcMotorController, deviceName), deviceName);
+        } else if (deviceType.equals(ServoController.class)) {
+            return new RobotServoController(getOrNull(getOpMode().hardwareMap.servoController, deviceName), deviceName);
+        } else if (deviceType.equals(DcMotor.class)) {
+            return new RobotMotor(getOrNull(getOpMode().hardwareMap.dcMotor, deviceName), deviceName);
+        } else if (deviceType.equals(Servo.class)) {
+            return new RobotServo(getOrNull(getOpMode().hardwareMap.servo, deviceName), deviceName);
+        }
+
+        return null;
     }
 
-    //TODO: Implement
-    public void removeMotor(String name) {
+    public RobotMotorController addMotorController(String name) {
+        robotMotorControllers.add((RobotMotorController) getDevice(DcMotorController.class, name));
+        return (RobotMotorController) getDevice(DcMotorController.class, name);
+    }
 
+    public RobotServoController addServoController(String name) {
+        robotServoControllers.add((RobotServoController) getDevice(ServoController.class, name));
+        return (RobotServoController) getDevice(ServoController.class, name);
+    }
+
+    public RobotMotor addMotor(String name) {
+        robotMotors.add((RobotMotor) getDevice(DcMotor.class, name));
+        return (RobotMotor) getDevice(DcMotor.class, name);
+    }
+
+    public RobotMotor addMotor(RobotMotorController motorController, String name) {
+        RobotMotor robotMotor = (RobotMotor) getDevice(DcMotor.class, name);
+        robotMotor.setMotorController(motorController);
+        robotMotors.add(robotMotor);
+        return robotMotor;
+    }
+
+    public RobotServo addServo(String name) {
+        robotServos.add((RobotServo) getDevice(Servo.class, name));
+        return (RobotServo) getDevice(Servo.class, name);
+    }
+
+    public RobotServo addServo(RobotServoController servoController, String name) {
+        RobotServo robotServo = (RobotServo) getDevice(Servo.class, name);
+        robotServo.setServoController(servoController);
+        robotServos.add(robotServo);
+        return robotServo;
     }
 
     /**
