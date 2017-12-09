@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.movement;
+package org.firstinspires.ftc.teamcode.movement.encoder;
 
 import android.support.annotation.NonNull;
 
@@ -8,6 +8,10 @@ import org.firstinspires.ftc.teamcode.utils.Constants;
 
 public class LinearEncoderMovementController {
 
+    /**
+     * TODO: make all these centralized and for specific robots so that once speicifcs are clicked
+     * the same moves can be played. for example dpad up no matter joystick moves up
+     */
     private Prometheus robot = null;
 
     public LinearEncoderMovementController(@NonNull Prometheus robot) {
