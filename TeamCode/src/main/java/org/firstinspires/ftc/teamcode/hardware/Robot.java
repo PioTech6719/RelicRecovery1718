@@ -153,9 +153,6 @@ public abstract class Robot {
             }
             notReset = !allReset;
         }
-
-        //TODO: Purpose of method is to reset but for auto why would it need to set to run WO encoder when need encoders
-        for (DcMotor motor : motors) motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     /**
