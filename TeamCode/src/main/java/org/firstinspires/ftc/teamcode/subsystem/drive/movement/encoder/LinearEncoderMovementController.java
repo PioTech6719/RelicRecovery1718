@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.movement.encoder;
+package org.firstinspires.ftc.teamcode.subsystem.drive.movement.encoder;
 
 import android.support.annotation.NonNull;
 
 import org.firstinspires.ftc.teamcode.hardware.Directions;
-import org.firstinspires.ftc.teamcode.hardware.Prometheus;
+import org.firstinspires.ftc.teamcode.hardware.robots.Pionizer;
 import org.firstinspires.ftc.teamcode.utils.Constants;
 
 public class LinearEncoderMovementController {
@@ -12,9 +12,9 @@ public class LinearEncoderMovementController {
      * TODO: make all these centralized and for specific robots so that once speicifcs are clicked
      * the same moves can be played. for example dpad up no matter joystick moves up
      */
-    private Prometheus robot = null;
+    private Pionizer robot = null;
 
-    public LinearEncoderMovementController(@NonNull Prometheus robot) {
+    public LinearEncoderMovementController(@NonNull Pionizer robot) {
         this.robot = robot;
     }
 
