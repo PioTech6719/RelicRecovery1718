@@ -3,13 +3,13 @@ package org.firstinspires.ftc.teamcode.opmodes.tele.main;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.hardware.Prometheus;
+import org.firstinspires.ftc.teamcode.hardware.robots.Pionizer;
 import org.firstinspires.ftc.teamcode.utils.Constants;
 
 @TeleOp(name = "Prometheus TeleOp 1", group = "main")
 public class MainTeleOp extends OpMode{
 
-    private Prometheus robot = new Prometheus();
+    private Pionizer robot = new Pionizer();
     private double defaultLinearSpeed = 1.0;
 
     @Override
@@ -116,19 +116,19 @@ public class MainTeleOp extends OpMode{
 
         //Encoder Lift Control
         if (gamepad2.y) {
-            Prometheus.LiftSetting desiredLiftSetting = Prometheus.LiftSetting.HIGH;
-            if (robot.currentLiftSetting == Prometheus.LiftSetting.LOW) {
-                desiredLiftSetting = Prometheus.LiftSetting.MID;
-            } else if (robot.currentLiftSetting == Prometheus.LiftSetting.MID) {
-                desiredLiftSetting = Prometheus.LiftSetting.HIGH;
+            Pionizer.LiftSetting desiredLiftSetting = Pionizer.LiftSetting.HIGH;
+            if (robot.currentLiftSetting == Pionizer.LiftSetting.LOW) {
+                desiredLiftSetting = Pionizer.LiftSetting.MID;
+            } else if (robot.currentLiftSetting == Pionizer.LiftSetting.MID) {
+                desiredLiftSetting = Pionizer.LiftSetting.HIGH;
             }
             robot.setLiftSystem(desiredLiftSetting);
         } else if (gamepad2.a) {
-            Prometheus.LiftSetting desiredLiftSetting = Prometheus.LiftSetting.LOW;
-            if (robot.currentLiftSetting == Prometheus.LiftSetting.MID) {
-                desiredLiftSetting = Prometheus.LiftSetting.LOW;
-            } else if (robot.currentLiftSetting == Prometheus.LiftSetting.HIGH) {
-                desiredLiftSetting = Prometheus.LiftSetting.MID;
+            Pionizer.LiftSetting desiredLiftSetting = Pionizer.LiftSetting.LOW;
+            if (robot.currentLiftSetting == Pionizer.LiftSetting.MID) {
+                desiredLiftSetting = Pionizer.LiftSetting.LOW;
+            } else if (robot.currentLiftSetting == Pionizer.LiftSetting.HIGH) {
+                desiredLiftSetting = Pionizer.LiftSetting.MID;
             }
             robot.setLiftSystem(desiredLiftSetting);
         }
