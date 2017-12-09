@@ -17,40 +17,40 @@ public class CustomGamepad {
     private JoystickDirection getCurrentJoystickDirection(Joystick joystick) {
         switch (joystick) {
             case LEFT:
-                if (gamepad.left_stick_y > GAMEPAD_THRESHOLD &&
+                if (-gamepad.left_stick_y > GAMEPAD_THRESHOLD &&
                         gamepad.left_stick_x < GAMEPAD_THRESHOLD &&
                         gamepad.left_stick_x > -GAMEPAD_THRESHOLD) {
                     return JoystickDirection.UP;
-                } else if (gamepad.left_stick_y < -GAMEPAD_THRESHOLD &&
+                } else if (-gamepad.left_stick_y < -GAMEPAD_THRESHOLD &&
                         gamepad.left_stick_x < GAMEPAD_THRESHOLD &&
                         gamepad.left_stick_x > -GAMEPAD_THRESHOLD) {
                     return JoystickDirection.DOWN;
                 } else if (gamepad.left_stick_x < -GAMEPAD_THRESHOLD &&
-                        gamepad.left_stick_y < GAMEPAD_THRESHOLD &&
-                        gamepad.left_stick_y > -GAMEPAD_THRESHOLD) {
+                        -gamepad.left_stick_y < GAMEPAD_THRESHOLD &&
+                        -gamepad.left_stick_y > -GAMEPAD_THRESHOLD) {
                     return JoystickDirection.LEFT;
                 } else if (gamepad.left_stick_x > GAMEPAD_THRESHOLD &&
-                        gamepad.left_stick_y < GAMEPAD_THRESHOLD &&
-                        gamepad.left_stick_y > -GAMEPAD_THRESHOLD) {
+                        -gamepad.left_stick_y < GAMEPAD_THRESHOLD &&
+                        -gamepad.left_stick_y > -GAMEPAD_THRESHOLD) {
                     return JoystickDirection.RIGHT;
                 }
                 break;
             case RIGHT:
-                if (gamepad.right_stick_y > GAMEPAD_THRESHOLD &&
+                if (-gamepad.right_stick_y > GAMEPAD_THRESHOLD &&
                         gamepad.right_stick_x < GAMEPAD_THRESHOLD &&
                         gamepad.right_stick_x > -GAMEPAD_THRESHOLD) {
                     return JoystickDirection.UP;
-                } else if (gamepad.right_stick_y < -GAMEPAD_THRESHOLD &&
+                } else if (-gamepad.right_stick_y < -GAMEPAD_THRESHOLD &&
                         gamepad.right_stick_x < GAMEPAD_THRESHOLD &&
                         gamepad.right_stick_x > -GAMEPAD_THRESHOLD) {
                     return JoystickDirection.DOWN;
                 } else if (gamepad.right_stick_x < -GAMEPAD_THRESHOLD &&
-                        gamepad.right_stick_y < GAMEPAD_THRESHOLD &&
-                        gamepad.right_stick_y > -GAMEPAD_THRESHOLD) {
+                        -gamepad.right_stick_y < GAMEPAD_THRESHOLD &&
+                        -gamepad.right_stick_y > -GAMEPAD_THRESHOLD) {
                     return JoystickDirection.LEFT;
                 } else if (gamepad.right_stick_x > GAMEPAD_THRESHOLD &&
-                        gamepad.right_stick_y < GAMEPAD_THRESHOLD &&
-                        gamepad.right_stick_y > -GAMEPAD_THRESHOLD) {
+                        -gamepad.right_stick_y < GAMEPAD_THRESHOLD &&
+                        -gamepad.right_stick_y > -GAMEPAD_THRESHOLD) {
                     return JoystickDirection.RIGHT;
                 }
                 break;
