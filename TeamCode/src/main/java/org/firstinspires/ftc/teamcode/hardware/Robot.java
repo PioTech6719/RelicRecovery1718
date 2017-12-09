@@ -26,7 +26,7 @@ public abstract class Robot {
 
     private ArrayList<RobotMotorController> robotMotorControllers = new ArrayList<>();
     private ArrayList<RobotServoController> robotServoControllers = new ArrayList<>();
-    private ArrayList<RobotMotor> robotMotors = new ArrayList<>();
+    private ArrayList<RobotMotor> robotMotors = new ArrayList<>(); //TODO: Add driveMotors arraylist for use in movementControllers. movementControllers needs a base class and also must not be specific to drivetrain also have setdirection not be specific to drivetrain
     private ArrayList<RobotServo> robotServos = new ArrayList<>();
 
     public Robot(OpMode opMode) {
