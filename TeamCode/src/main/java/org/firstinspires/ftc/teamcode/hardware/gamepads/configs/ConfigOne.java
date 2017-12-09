@@ -14,6 +14,9 @@ public class ConfigOne extends GamepadConfig {
 
     //Once receive states check if contains a specific step or not then execute. mb use reflection to simply call the method isntead of 1mil methods?
     @Override
+    /**
+     * Maps gamepad controls to robot movements
+     */
     public ArrayList<STATES> getStates() {
         ArrayList<STATES> currentStates = new ArrayList<>();
 
@@ -89,7 +92,7 @@ public class ConfigOne extends GamepadConfig {
     }
 
     //TODO: Where should the executeState() be? In the teleop class? pass it to movement controllers
-    private enum STATES implements GamepadConfig.STATES {
+    public enum STATES implements GamepadConfig.STATES {
         DRIVE_FORWARD,
         DRIVE_REVERSE,
         DRIVE_LEFT,
