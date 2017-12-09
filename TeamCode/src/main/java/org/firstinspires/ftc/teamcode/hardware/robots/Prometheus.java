@@ -15,7 +15,6 @@ import org.firstinspires.ftc.teamcode.hardware.devices.RobotMotor;
 import org.firstinspires.ftc.teamcode.hardware.devices.RobotServo;
 import org.firstinspires.ftc.teamcode.opmodes.GameMode;
 
-
 public class Prometheus extends Robot {
 
     private RobotMotorController leftDriveMotors = null;
@@ -88,9 +87,11 @@ public class Prometheus extends Robot {
         return true;
     }
 
+    @Override
     public void init(GameMode gameMode) {
         connectDevices(gameMode);
         setMotorDirections();
+        setDriveMotorMode(gameMode);
 
         if (gameMode.equals(GameMode.AUTO)) {
             calibrateGyro();
@@ -105,5 +106,21 @@ public class Prometheus extends Robot {
         ((DcMotor) rightRearMotor.getHardwareDevice()).setDirection(DcMotorSimple.Direction.REVERSE);
 
         ((DcMotor) liftMotor.getHardwareDevice()).setDirection(DcMotorSimple.Direction.FORWARD);
+    }
+
+    private void setDriveMotorMode(GameMode gameMode) {
+        if (gameMode.equals(GameMode.AUTO)) {
+            setMotorsMode(DcMotor.RunMode.RUN_USING_ENCODER,
+                    (DcMotor) leftFrontMotor.getHardwareDevice(),
+                    (DcMotor) leftRearMotor.getHardwareDevice(),
+                    (DcMotor) rightFrontMotor.getHardwareDevice(),
+                    (DcMotor) rightRearMotor.getHardwareDevice());
+        } else if (gameMode.equals(GameMode.TELEOP)) {
+            setMotorsMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER,
+                    (DcMotor) leftFrontMotor.getHardwareDevice(),
+                    (DcMotor) leftRearMotor.getHardwareDevice(),
+                    (DcMotor) rightFrontMotor.getHardwareDevice(),
+                    (DcMotor) rightRearMotor.getHardwareDevice());
+        }
     }
 }

@@ -15,11 +15,12 @@ import org.firstinspires.ftc.teamcode.hardware.controllers.RobotMotorController;
 import org.firstinspires.ftc.teamcode.hardware.controllers.RobotServoController;
 import org.firstinspires.ftc.teamcode.hardware.devices.RobotMotor;
 import org.firstinspires.ftc.teamcode.hardware.devices.RobotServo;
+import org.firstinspires.ftc.teamcode.opmodes.GameMode;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-public class Robot {
+public abstract class Robot {
 
     private static OpMode opMode = null;
 
@@ -88,6 +89,8 @@ public class Robot {
         return null;
     }
 
+    public abstract void init(GameMode gameMode);
+
     public RobotMotorController addMotorController(String name) {
         robotMotorControllers.add((RobotMotorController) getDevice(DcMotorController.class, name));
         return (RobotMotorController) getDevice(DcMotorController.class, name);
@@ -122,6 +125,15 @@ public class Robot {
         return robotServo;
     }
 
+    //TODO: Convert to extrqact DcMotor from RobotMotor and input RobotMotor to keep opmode classes clean
+    public void setMotorsMode(@NonNull DcMotor.RunMode runMode, @NonNull DcMotor... motors) {
+        resetMotors(motors);
+
+        for (DcMotor motor : motors) {
+            motor.setMode(runMode);
+        }
+    }
+
     /**
      * Waits for all the motors to have zero position and if it is not zero tell it to reset
      *
@@ -141,6 +153,8 @@ public class Robot {
             }
             notReset = !allReset;
         }
+
+        //TODO: Purpose of method is to reset but for auto why would it need to set to run WO encoder when need encoders
         for (DcMotor motor : motors) motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
