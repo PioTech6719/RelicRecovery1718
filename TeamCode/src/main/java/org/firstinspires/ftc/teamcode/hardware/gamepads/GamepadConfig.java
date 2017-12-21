@@ -2,9 +2,11 @@ package org.firstinspires.ftc.teamcode.hardware.gamepads;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.teamcode.utils.RobotStates;
+
 import java.util.ArrayList;
 
-public abstract class GamepadConfig<T extends GamepadConfig.STATES> {
+public abstract class GamepadConfig {
 
     private CustomGamepad gamepad1 = null;
     private CustomGamepad gamepad2 = null;
@@ -29,9 +31,5 @@ public abstract class GamepadConfig<T extends GamepadConfig.STATES> {
         gamepad2.getGamepad().setJoystickDeadzone(.1f);
     }
 
-    public abstract ArrayList<T> getStates();
-
-    public interface STATES {
-
-    }
+    public abstract ArrayList<RobotStates> getStates();
 }

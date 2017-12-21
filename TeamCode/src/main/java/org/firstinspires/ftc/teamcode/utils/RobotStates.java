@@ -1,8 +1,7 @@
 package org.firstinspires.ftc.teamcode.utils;
 
-//makes it more robot_specific which isnt desired
+//TODO: Where should the executeState() be? In the teleop class? pass it to movement controllers
 public enum RobotStates {
-
     DRIVE_FORWARD,
     DRIVE_REVERSE,
     DRIVE_LEFT,
@@ -21,7 +20,7 @@ public enum RobotStates {
     INCREMENT_LIFT,
     DECREMENT_LIFT,
 
-    OPEN_LOWER_GLYPH,
+    OPEN_LOWER_GLYPH, //TODO: What if wanted to have the joystick value control the setting?
     CLOSE_LOWER_GLYPH,
 
     OPEN_UPPER_GLYPH,

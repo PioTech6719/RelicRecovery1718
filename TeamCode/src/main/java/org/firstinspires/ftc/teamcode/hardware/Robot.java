@@ -16,6 +16,8 @@ import org.firstinspires.ftc.teamcode.hardware.controllers.RobotServoController;
 import org.firstinspires.ftc.teamcode.hardware.devices.RobotMotor;
 import org.firstinspires.ftc.teamcode.hardware.devices.RobotServo;
 import org.firstinspires.ftc.teamcode.opmodes.GameMode;
+import org.firstinspires.ftc.teamcode.subsystem.Subsystem;
+import org.firstinspires.ftc.teamcode.utils.RobotStates;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -28,6 +30,7 @@ public abstract class Robot {
     private ArrayList<RobotServoController> robotServoControllers = new ArrayList<>();
     private ArrayList<RobotMotor> robotMotors = new ArrayList<>(); //TODO: Add driveMotors arraylist for use in movementControllers. movementControllers needs a base class and also must not be specific to drivetrain also have setdirection not be specific to drivetrain
     private ArrayList<RobotServo> robotServos = new ArrayList<>();
+    private ArrayList<Subsystem> robotSubsystems = new ArrayList<>();
 
     public Robot(OpMode opMode) {
         Robot.opMode = opMode;
@@ -61,8 +64,8 @@ public abstract class Robot {
      * @param <T>  the type of hardware map
      * @return the hardware device associated with the name
      */
-    protected <T extends HardwareDevice> T getOrNull(@NonNull HardwareMap.DeviceMapping<T> map,
-                                                     String name) {
+    public <T extends HardwareDevice> T getOrNull(@NonNull HardwareMap.DeviceMapping<T> map,
+                                                  String name) {
         for (Map.Entry<String, T> item : map.entrySet()) {
             if (!item.getKey().equalsIgnoreCase(name)) {
                 continue;
@@ -96,9 +99,29 @@ public abstract class Robot {
         return (RobotMotorController) getDevice(DcMotorController.class, name);
     }
 
+    public RobotMotorController getMotorController(String name) {
+        for (RobotMotorController robotMotorController : robotMotorControllers) {
+            if (robotMotorController.getName().equals(name)) {
+                return robotMotorController;
+            }
+        }
+
+        return null;
+    }
+
     public RobotServoController addServoController(String name) {
         robotServoControllers.add((RobotServoController) getDevice(ServoController.class, name));
         return (RobotServoController) getDevice(ServoController.class, name);
+    }
+
+    public RobotServoController getServoController(String name) {
+        for (RobotServoController robotServoController : robotServoControllers) {
+            if (robotServoController.getName().equals(name)) {
+                return robotServoController;
+            }
+        }
+
+        return null;
     }
 
     public RobotMotor addMotor(String name) {
@@ -113,6 +136,16 @@ public abstract class Robot {
         return robotMotor;
     }
 
+    public RobotMotor getMotor(String name) {
+        for (RobotMotor robotMotor : robotMotors) {
+            if (robotMotor.getName().equals(name)) {
+                return robotMotor;
+            }
+        }
+
+        return null;
+    }
+
     public RobotServo addServo(String name) {
         robotServos.add((RobotServo) getDevice(Servo.class, name));
         return (RobotServo) getDevice(Servo.class, name);
@@ -124,6 +157,28 @@ public abstract class Robot {
         robotServos.add(robotServo);
         return robotServo;
     }
+
+    public RobotServo getServo(String name) {
+        for (RobotServo robotServo : robotServos) {
+            if (robotServo.getName().equals(name)) {
+                return robotServo;
+            }
+        }
+
+        return null;
+    }
+
+    public Subsystem addSubsystem(Subsystem subsystem) {
+        robotSubsystems.add(subsystem);
+        return subsystem;
+    }
+
+    public void handleOperations(ArrayList<RobotStates> robotStates) {
+        for (Subsystem subsystem : robotSubsystems) {
+            subsystem.handle(robotStates);
+        }
+    }
+
 
     //TODO: Convert to extrqact DcMotor from RobotMotor and input RobotMotor to keep opmode classes clean
     public void setMotorsMode(@NonNull DcMotor.RunMode runMode, @NonNull DcMotor... motors) {
