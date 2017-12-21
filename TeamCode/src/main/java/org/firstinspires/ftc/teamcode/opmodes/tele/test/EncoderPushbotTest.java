@@ -73,6 +73,16 @@ public class EncoderPushbotTest extends LinearOpMode {
                 rightFrontMotor.setPower(1);
                 leftRearMotor.setPower(1);
                 rightRearMotor.setPower(-1);
+            } else if (gamepad1.x) {
+                leftFrontMotor.setPower(-1);
+                rightFrontMotor.setPower(1);
+                leftRearMotor.setPower(-1);
+                rightRearMotor.setPower(1);
+            } else if (gamepad1.b) {
+                leftFrontMotor.setPower(1);
+                rightFrontMotor.setPower(-1);
+                leftRearMotor.setPower(1);
+                rightRearMotor.setPower(-1);
             } else {
                 leftFrontMotor.setPower(0);
                 rightFrontMotor.setPower(0);
