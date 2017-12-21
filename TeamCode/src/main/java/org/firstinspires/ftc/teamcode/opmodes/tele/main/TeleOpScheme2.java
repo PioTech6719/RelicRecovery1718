@@ -3,14 +3,14 @@ package org.firstinspires.ftc.teamcode.opmodes.tele.main;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.hardware.Prometheus;
+import org.firstinspires.ftc.teamcode.hardware.robots.Pionizer;
 import org.firstinspires.ftc.teamcode.utils.Constants;
 
 @TeleOp(name = "Prometheus TeleOp 2", group = "test")
 public class TeleOpScheme2 extends OpMode {
 
     private final double GAMEPAD_THRESHOLD = 0.2;
-    private Prometheus robot = new Prometheus();
+    private Pionizer robot = new Pionizer();
 
     @Override
     public void init() {
