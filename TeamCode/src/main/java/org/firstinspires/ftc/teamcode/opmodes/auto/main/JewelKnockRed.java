@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.auto.test;
+package org.firstinspires.ftc.teamcode.opmodes.auto.main;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -13,10 +13,10 @@ import org.firstinspires.ftc.teamcode.subsystem.drive.drivecontroller.PID.PIDCom
 import org.firstinspires.ftc.teamcode.subsystem.jewel.JewelSensorSystem;
 import org.firstinspires.ftc.teamcode.utils.PioTimer;
 
-@Autonomous(name = "Sensor Test - Knock Jewel Red", group = "test")
+@Autonomous(name = "Sensor Test - Knock Jewel Red", group = "main")
 public class JewelKnockRed extends BaseAutoOp {
 
-    private Alliance alliance = Alliance.BLUE;
+    private Alliance alliance = Alliance.RED;
     private Prometheus prometheus;
 
     @Override
@@ -43,7 +43,7 @@ public class JewelKnockRed extends BaseAutoOp {
 
             sleep(1500);
             if (((JewelSensorSystem) prometheus.getSubsystem(JewelSensorSystem.class)).getJewel()
-                    .equals(getAllianceProperties().getAllianceProperty(AllianceProperties.AllianceProperty.JEWEL_COLOR))) {
+                    .equals(getAllianceProperties().getAllianceProperty(AllianceProperties.AllianceProperty.OPPOSITE_JEWEL_COLOR))) {
 
                 telemetry.addData("Jewel", "Correct Color: Red");
                 telemetry.update();
@@ -58,7 +58,7 @@ public class JewelKnockRed extends BaseAutoOp {
 
                 sleep(2000);
             } else if (((JewelSensorSystem) prometheus.getSubsystem(JewelSensorSystem.class)).getJewel()
-                    .equals(getAllianceProperties().getAllianceProperty(AllianceProperties.AllianceProperty.OPPOSITE_JEWEL_COLOR))) {
+                    .equals(getAllianceProperties().getAllianceProperty(AllianceProperties.AllianceProperty.JEWEL_COLOR))) {
 
                 telemetry.addData("Jewel", "Opposite Color: Red");
                 telemetry.update();

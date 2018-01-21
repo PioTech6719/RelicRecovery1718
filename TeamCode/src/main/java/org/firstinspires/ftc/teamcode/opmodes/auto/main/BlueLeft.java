@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.utils.PioTimer;
 public class BlueLeft extends BaseAutoOp {
 
     private final String TELEMETRY_TAG = "Status: ";
-    private Alliance alliance = Alliance.RED;
+    private Alliance alliance = Alliance.BLUE;
     private Prometheus prometheus;
 
     @Override
@@ -103,7 +103,7 @@ public class BlueLeft extends BaseAutoOp {
 
             //Detect Jewel Color and depending on color make specific moves
             if (((JewelSensorSystem) prometheus.getSubsystem(JewelSensorSystem.class)).getJewel()
-                    .equals(getAllianceProperties().getAllianceProperty(AllianceProperties.AllianceProperty.JEWEL_COLOR))) {
+                    .equals(getAllianceProperties().getAllianceProperty(AllianceProperties.AllianceProperty.OPPOSITE_JEWEL_COLOR))) {
 
                 telemetry.addData(TELEMETRY_TAG, "Right Ball is Correct Color");
                 telemetry.update();
@@ -221,7 +221,7 @@ public class BlueLeft extends BaseAutoOp {
 
                 //Opposite Jewel Color
             } else if (((JewelSensorSystem) prometheus.getSubsystem(JewelSensorSystem.class)).getJewel()
-                    .equals(getAllianceProperties().getAllianceProperty(AllianceProperties.AllianceProperty.OPPOSITE_JEWEL_COLOR))) {
+                    .equals(getAllianceProperties().getAllianceProperty(AllianceProperties.AllianceProperty.JEWEL_COLOR))) {
 
                 telemetry.addData(TELEMETRY_TAG, "Left Ball is Correct Color");
                 telemetry.update();

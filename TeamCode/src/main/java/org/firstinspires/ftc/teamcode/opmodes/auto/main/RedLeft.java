@@ -15,11 +15,11 @@ import org.firstinspires.ftc.teamcode.subsystem.glyph.GlyphSystem;
 import org.firstinspires.ftc.teamcode.subsystem.jewel.JewelSensorSystem;
 import org.firstinspires.ftc.teamcode.utils.PioTimer;
 
-@Autonomous(name = "Red Left Auto - DONE", group = "main")
+@Autonomous(name = "Red Left Auto", group = "main")
 public class RedLeft extends BaseAutoOp {
 
     private final String TELEMETRY_TAG = "Status: ";
-    private Alliance alliance = Alliance.BLUE;
+    private Alliance alliance = Alliance.RED;
     private Prometheus prometheus;
 
     @Override
@@ -102,7 +102,7 @@ public class RedLeft extends BaseAutoOp {
 
             //Detect Jewel Color and depending on color make specific moves
             if (((JewelSensorSystem) prometheus.getSubsystem(JewelSensorSystem.class)).getJewel()
-                    .equals(getAllianceProperties().getAllianceProperty(AllianceProperties.AllianceProperty.JEWEL_COLOR))) {
+                    .equals(getAllianceProperties().getAllianceProperty(AllianceProperties.AllianceProperty.OPPOSITE_JEWEL_COLOR))) {
 
                 telemetry.addData(TELEMETRY_TAG, "Right Ball is Correct Color");
                 telemetry.update();
@@ -202,7 +202,7 @@ public class RedLeft extends BaseAutoOp {
 
                 //Opposite Jewel Color
             } else if (((JewelSensorSystem) prometheus.getSubsystem(JewelSensorSystem.class)).getJewel()
-                    .equals(getAllianceProperties().getAllianceProperty(AllianceProperties.AllianceProperty.OPPOSITE_JEWEL_COLOR))) {
+                    .equals(getAllianceProperties().getAllianceProperty(AllianceProperties.AllianceProperty.JEWEL_COLOR))) {
 
                 telemetry.addData(TELEMETRY_TAG, "Left Ball is Correct Color");
                 telemetry.update();
