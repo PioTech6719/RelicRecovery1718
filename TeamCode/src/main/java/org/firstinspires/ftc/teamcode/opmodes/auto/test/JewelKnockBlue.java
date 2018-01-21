@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.subsystem.jewel.JewelSensorSystem;
 import org.firstinspires.ftc.teamcode.utils.PioTimer;
 
 @Autonomous(name = "Sensor Test - Knock Jewel Blue", group = "test")
-public class JewelKnockTest extends BaseAutoOp {
+public class JewelKnockBlue extends BaseAutoOp {
 
     private Alliance alliance = Alliance.RED;
     private Prometheus prometheus;
