@@ -116,12 +116,28 @@ public class CustomGamepad {
         return getCurrentJoystickDirection(Joystick.LEFT) == JoystickDirection.RIGHT;
     }
 
+    public boolean isRightStickIdle() {
+        return getCurrentJoystickDirection(Joystick.RIGHT) == JoystickDirection.NONE;
+    }
+
     public boolean isLeftTriggerPressed() {
         return getCurrentTriggerState(Trigger.LEFT);
     }
 
     public boolean isRightTriggerPressed() {
         return getCurrentTriggerState(Trigger.RIGHT);
+    }
+
+    public boolean isClicked(ButtonType buttonType) {
+        return new Button(gamepad, buttonType).isClicked();
+    }
+
+    public boolean isPressed(ButtonType buttonType) {
+        return new Button(gamepad, buttonType).isPressed();
+    }
+
+    public boolean isUpdated(ButtonType buttonType) {
+        return new Button(gamepad, buttonType).isUpdated();
     }
 
     private enum JoystickDirection {

@@ -2,11 +2,15 @@ package org.firstinspires.ftc.teamcode.utils;
 
 //TODO: Where should the executeState() be? In the teleop class? pass it to movement controllers
 public enum RobotStates {
+    DRIVE_JOYSTICK,
     DRIVE_FORWARD,
     DRIVE_REVERSE,
     DRIVE_LEFT,
     DRIVE_RIGHT,
     DRIVE_BRAKE,
+
+    BRAKE_DRIVE_MOTORS,
+    FLOAT_DRIVE_MOTORS,
 
     ROTATE_CLOCKWISE,
     ROTATE_COUNTERCLOCKWISE,
@@ -16,6 +20,7 @@ public enum RobotStates {
 
     RAISE_LIFT,
     LOWER_LIFT,
+    STOP_LIFT,
 
     INCREMENT_LIFT,
     DECREMENT_LIFT,

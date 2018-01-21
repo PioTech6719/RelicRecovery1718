@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.hardware;
 
 import android.support.annotation.NonNull;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
@@ -173,6 +174,16 @@ public abstract class Robot {
         return subsystem;
     }
 
+    public Subsystem getSubsystem(Class subsystemClass) {
+        for (Subsystem subsystem :
+                robotSubsystems) {
+            if (subsystem.getClass().equals(subsystemClass)) {
+                return subsystem;
+            }
+        }
+        return null;
+    }
+
     public void handleOperations(ArrayList<RobotStates> robotStates) {
         for (Subsystem subsystem : robotSubsystems) {
             subsystem.handle(robotStates);
@@ -181,7 +192,7 @@ public abstract class Robot {
 
 
     //TODO: Convert to extrqact DcMotor from RobotMotor and input RobotMotor to keep opmode classes clean
-    public void setMotorsMode(@NonNull DcMotor.RunMode runMode, @NonNull DcMotor... motors) {
+    public void resetMotorsMode(@NonNull DcMotor.RunMode runMode, @NonNull DcMotor... motors) {
         resetMotors(motors);
 
         for (DcMotor motor : motors) {
@@ -189,6 +200,7 @@ public abstract class Robot {
         }
     }
 
+    //TODO: make private
     /**
      * Waits for all the motors to have zero position and if it is not zero tell it to reset
      *
@@ -205,9 +217,47 @@ public abstract class Robot {
                 }
                 allReset = false;
                 motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                if (Robot.getOpMode() instanceof LinearOpMode) {
+                    ((LinearOpMode) Robot.getOpMode()).idle();
+                }
             }
             notReset = !allReset;
         }
+        for (DcMotor motor : motors) motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    //TODO: make private
+
+    /**
+     * Waits for all the motors to have zero position and if it is not zero tell it to reset
+     *
+     * @param motors motors to reset
+     */
+    public void resetMotors(@NonNull RobotMotor... motors) {
+        ArrayList<DcMotor> dcMotors = new ArrayList<>();
+        for (RobotMotor robotMotor : motors) {
+            dcMotors.add((DcMotor) robotMotor.getHardwareDevice());
+        }
+
+        boolean notReset = true;
+        while (notReset) {
+            boolean allReset = true;
+            for (DcMotor motor : dcMotors) {
+                motor.setPower(0);
+                if (motor.getCurrentPosition() == 0) {
+                    continue;
+                }
+                allReset = false;
+                motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                if (Robot.getOpMode() instanceof LinearOpMode) {
+                    ((LinearOpMode) Robot.getOpMode()).idle();
+                }
+            }
+            notReset = !allReset;
+        }
+        for (DcMotor motor : dcMotors) motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     /**

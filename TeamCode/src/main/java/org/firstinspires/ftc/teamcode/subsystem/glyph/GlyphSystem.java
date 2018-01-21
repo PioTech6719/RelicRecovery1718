@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystem.glyph;
 
-import com.qualcomm.robotcore.hardware.Servo;
-
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.hardware.consts.PrometheusConstants;
 import org.firstinspires.ftc.teamcode.hardware.controllers.RobotServoController;
@@ -31,13 +29,13 @@ public class GlyphSystem extends Subsystem {
 
     @Override
     public void init() {
-        glyphGrabberUpperServos = getRobot().addServoController(PrometheusConstants.UPPER_GLYPH_SERVO_CONTRLLER);
-        glyphGrabberLowerServos = getRobot().addServoController(PrometheusConstants.LOWER_GLYPH_SERVO_CONTRLLER);
+//        glyphGrabberUpperServos = getRobot().addServoController(PrometheusConstants.GLYPH_SERVO_CONTRLLER);
+//        glyphGrabberLowerServos = getRobot().addServoController(PrometheusConstants.GLYPH_SERVO_CONTRLLER);
 
-        upperLeftServo = getRobot().addServo(glyphGrabberUpperServos, PrometheusConstants.UPPER_LEFT_SERVO);
-        upperRightServo = getRobot().addServo(glyphGrabberUpperServos, PrometheusConstants.UPPER_RIGHT_SERVO);
-        lowerLeftServo = getRobot().addServo(glyphGrabberLowerServos, PrometheusConstants.LOWER_LEFT_SERVO);
-        lowerRightServo = getRobot().addServo(glyphGrabberUpperServos, PrometheusConstants.LOWER_RIGHT_SERVO);
+        upperLeftServo = getRobot().addServo(PrometheusConstants.UPPER_LEFT_SERVO);
+        upperRightServo = getRobot().addServo(PrometheusConstants.UPPER_RIGHT_SERVO);
+        lowerLeftServo = getRobot().addServo(PrometheusConstants.LOWER_LEFT_SERVO);
+        lowerRightServo = getRobot().addServo(PrometheusConstants.LOWER_RIGHT_SERVO);
 
         setDirections();
     }
@@ -45,23 +43,23 @@ public class GlyphSystem extends Subsystem {
     @Override
     public void handle(ArrayList<RobotStates> robotStates) {
         if (robotStates.contains(RobotStates.OPEN_LOWER_GLYPH)) {
-            lowerLeftServo.setPosition(15.0);
-            lowerRightServo.setPosition(15.0);
+            lowerLeftServo.setPosition(0.15);
+            lowerRightServo.setPosition(0.81);
         }
 
         if (robotStates.contains(RobotStates.CLOSE_LOWER_GLYPH)) {
-            lowerLeftServo.setPosition(0.0);
-            lowerRightServo.setPosition(0.0);
+            lowerLeftServo.setPosition(0.02);
+            lowerRightServo.setPosition(0.90);
         }
 
         if (robotStates.contains(RobotStates.OPEN_UPPER_GLYPH)) {
-            upperLeftServo.setPosition(15.0);
-            upperRightServo.setPosition(15.0);
+            upperLeftServo.setPosition(0.80);
+            upperRightServo.setPosition(0.30);
         }
 
         if (robotStates.contains(RobotStates.CLOSE_UPPER_GLYPH)) {
-            upperLeftServo.setPosition(0.0);
-            upperRightServo.setPosition(0.0);
+            upperLeftServo.setPosition(0.93);
+            upperRightServo.setPosition(0.20);
         }
     }
 
@@ -70,10 +68,38 @@ public class GlyphSystem extends Subsystem {
 
     }
 
+    //Disabled for now as not supported
     private void setDirections() {
-        lowerLeftServo.setDirection(Servo.Direction.FORWARD);
-        lowerRightServo.setDirection(Servo.Direction.REVERSE);
-        upperLeftServo.setDirection(Servo.Direction.FORWARD);
-        upperRightServo.setDirection(Servo.Direction.REVERSE);
+//        lowerLeftServo.setDirection(Servo.Direction.FORWARD);
+//        lowerRightServo.setDirection(Servo.Direction.REVERSE);
+//        upperLeftServo.setDirection(Servo.Direction.FORWARD);
+//        upperRightServo.setDirection(Servo.Direction.REVERSE);
+    }
+
+    public void initServos() {
+        upperLeftServo.setPosition(0.80);
+        upperRightServo.setPosition(0.30);
+        lowerLeftServo.setPosition(0.15);
+        lowerRightServo.setPosition(0.81);
+    }
+
+    public void openLowers() {
+        lowerLeftServo.setPosition(0.15);
+        lowerRightServo.setPosition(0.81);
+    }
+
+    public void openUppers() {
+        upperLeftServo.setPosition(0.80);
+        upperRightServo.setPosition(0.30);
+    }
+
+    public void closeLowers() {
+        lowerLeftServo.setPosition(0.02);
+        lowerRightServo.setPosition(0.90);
+    }
+
+    public void closeUppers() {
+        upperLeftServo.setPosition(0.93);
+        upperRightServo.setPosition(0.20);
     }
 }

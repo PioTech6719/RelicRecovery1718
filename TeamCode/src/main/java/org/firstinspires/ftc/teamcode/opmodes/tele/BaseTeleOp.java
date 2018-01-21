@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.opmodes.GameMode;
 
 public abstract class BaseTeleOp extends OpMode {
 
-    private final GameMode GAME_MODE = GameMode.TELEOP;
+    private GameMode GAME_MODE = GameMode.TELEOP;
     private Robot robot = null;
     private GamepadConfig gamepadConfig = null;
 
@@ -18,6 +18,10 @@ public abstract class BaseTeleOp extends OpMode {
     public void init() {
         initializeClass();
         robot.init(GAME_MODE);
+    }
+
+    public void setGAME_MODE(GameMode GAME_MODE) {
+        this.GAME_MODE = GAME_MODE;
     }
 
     public void setRobot(Robot robot) {

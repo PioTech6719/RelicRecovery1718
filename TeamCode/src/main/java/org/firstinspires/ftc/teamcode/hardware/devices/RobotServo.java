@@ -15,7 +15,7 @@ public class RobotServo extends RobotHardwareDevice {
     private RobotServoController servoController = null;
 
     private int port = -1;
-    private double currentPosition = -1.0;
+    private double currentPosition = 0.0; //previously was -1 don't know y
     private Servo.Direction currentDirection = null;
     private int SPEED = 1;
 
@@ -23,7 +23,7 @@ public class RobotServo extends RobotHardwareDevice {
         super(servo, name);
 
         this.port = servo.getPortNumber();
-        this.currentPosition = servo.getPosition();
+        this.currentPosition = servo.getPosition(); //TODO: Returns NaN
         this.currentDirection = servo.getDirection();
     }
 
@@ -49,11 +49,11 @@ public class RobotServo extends RobotHardwareDevice {
     }
 
     public double getPosition() {
-        return ((RobotServo) getHardwareDevice()).getPosition();
+        return ((Servo) getHardwareDevice()).getPosition();
     }
 
     public void setPosition(double position) {
-        ((RobotServo) getHardwareDevice()).setPosition(position);
+        ((Servo) getHardwareDevice()).setPosition(position);
     }
 
     public void slowSetPosition(double position) {
@@ -74,10 +74,10 @@ public class RobotServo extends RobotHardwareDevice {
                     //Detect if speed will overreach desired position
                     if (position - currentPosition < customSpeed) {
                         //If adding speed will overreach, then simply set to position
-                        ((RobotServo) getHardwareDevice()).setPosition(position);
+                        ((Servo) getHardwareDevice()).setPosition(position);
                     } else {
                         //Otherwise increment by speed
-                        ((RobotServo) getHardwareDevice()).setPosition(currentPosition + customSpeed);
+                        ((Servo) getHardwareDevice()).setPosition(currentPosition + customSpeed);
                     }
 
                     while (((LinearOpMode) Robot.getOpMode()).opModeIsActive() && time.milliseconds() < 100) {
@@ -92,11 +92,11 @@ public class RobotServo extends RobotHardwareDevice {
                     //Detect if speed will underreach desired position
                     if (Math.abs(position - currentPosition) < customSpeed) {
                         //If subtracting speed will underreach, then simply set to position
-                        ((RobotServo) getHardwareDevice()).setPosition(position);
+                        ((Servo) getHardwareDevice()).setPosition(position);
                         currentPosition = position;
                     } else {
                         //Otherwise decrement by speed
-                        ((RobotServo) getHardwareDevice()).setPosition(currentPosition - customSpeed);
+                        ((Servo) getHardwareDevice()).setPosition(currentPosition - customSpeed);
                         currentPosition = currentPosition - customSpeed;
                     }
 
@@ -115,10 +115,10 @@ public class RobotServo extends RobotHardwareDevice {
                     //Detect if speed will overreach desired position
                     if (position - currentPosition < customSpeed) {
                         //If adding speed will overreach, then simply set to position
-                        ((RobotServo) getHardwareDevice()).setPosition(position);
+                        ((Servo) getHardwareDevice()).setPosition(position);
                     } else {
                         //Otherwise increment by speed
-                        ((RobotServo) getHardwareDevice()).setPosition(currentPosition + customSpeed);
+                        ((Servo) getHardwareDevice()).setPosition(currentPosition + customSpeed);
                     }
 
                     while (time.milliseconds() < 100) {
@@ -132,11 +132,11 @@ public class RobotServo extends RobotHardwareDevice {
                     //Detect if speed will underreach desired position
                     if (Math.abs(position - currentPosition) < customSpeed) {
                         //If subtracting speed will underreach, then simply set to position
-                        ((RobotServo) getHardwareDevice()).setPosition(position);
+                        ((Servo) getHardwareDevice()).setPosition(position);
                         currentPosition = position;
                     } else {
                         //Otherwise decrement by speed
-                        ((RobotServo) getHardwareDevice()).setPosition(currentPosition - customSpeed);
+                        ((Servo) getHardwareDevice()).setPosition(currentPosition - customSpeed);
                         currentPosition = currentPosition - customSpeed;
                     }
 
@@ -153,7 +153,7 @@ public class RobotServo extends RobotHardwareDevice {
     }
 
     public void setDirection(Servo.Direction currentDirection) {
-        ((RobotServo) getHardwareDevice()).setDirection(currentDirection);
+        ((Servo) getHardwareDevice()).setDirection(currentDirection);
         this.currentDirection = currentDirection;
     }
 }

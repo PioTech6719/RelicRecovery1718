@@ -9,9 +9,6 @@ public class RobotHardwareDevice {
     private HardwareDevice hardwareDevice = null;
     private String name = "";
 
-    public RobotHardwareDevice() {
-
-    }
 
     public RobotHardwareDevice(@NonNull HardwareDevice hardwareDevice, @NonNull String name) {
         this.hardwareDevice = hardwareDevice;

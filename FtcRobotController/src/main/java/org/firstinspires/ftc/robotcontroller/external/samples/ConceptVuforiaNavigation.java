@@ -117,7 +117,7 @@ public class ConceptVuforiaNavigation extends LinearOpMode {
          * Once you've obtained a license key, copy the string from the Vuforia web site
          * and paste it in to your code onthe next line, between the double quotes.
          */
-        parameters.vuforiaLicenseKey = "ATsODcD/////AAAAAVw2lR...d45oGpdljdOh5LuFB9nDNfckoxb8COxKSFX";
+        parameters.vuforiaLicenseKey = "Ac2N2pD/////AAAAGUtP1PV5KUFbn2hG/K+RFO1V1MLAkEORx2m1ZGTlPO/MyjNlkL/iv3eFSj9um8RlJ0HrOsHSJ3ajrpZgyAnyikkmh2rPyWbmw5UfLw9YLLGsC99ATkXLKk+sjjiUTSV0hubnL+9AfgrvhNY4kTG3XX7feZvFByyF1La4Inw/UFPx9LiunShdUK9QRgX3HfSACm1JHZGVj8mL0TByq6OL4lOA77UOX8Kn++Ed/OMyv6QyaRVxGob8uQv+xBhvKKm1QUFg2tTRHdnV9Lc0tbMUQLx2bS6XgAIkq4qF8ZIMOcd8uUYztkKoI5V9kiOHFpNZJS8yE7Qi8pgdwuetwHO3X4ZKLMUwBnUYVQbqfPzOa2ay";
 
         /*
          * We also indicate which camera on the RC that we wish to use.
