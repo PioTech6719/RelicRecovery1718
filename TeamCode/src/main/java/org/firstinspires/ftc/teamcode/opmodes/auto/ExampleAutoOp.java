@@ -9,13 +9,14 @@ import org.firstinspires.ftc.teamcode.match.Alliance;
 import org.firstinspires.ftc.teamcode.match.AllianceProperties;
 import org.firstinspires.ftc.teamcode.subsystem.drive.DriveSystem;
 import org.firstinspires.ftc.teamcode.subsystem.drive.drivecontroller.PID.PIDComplexity;
+import org.firstinspires.ftc.teamcode.subsystem.glyph.GlyphSystem;
 import org.firstinspires.ftc.teamcode.subsystem.jewel.JewelSensorSystem;
 import org.firstinspires.ftc.teamcode.utils.PioTimer;
 
 @Autonomous(name = "Example Auto", group = "example")
 public class ExampleAutoOp extends BaseAutoOp {
 
-    private Alliance alliance = Alliance.BLUE;
+    private Alliance alliance = Alliance.RED;
     private Prometheus prometheus;
 
     @Override
@@ -24,7 +25,7 @@ public class ExampleAutoOp extends BaseAutoOp {
 
         setRobot(prometheus);
         setGamepadConfig(null);
-        setAlliance(Alliance.BLUE);
+        setAlliance(alliance);
     }
 
     @Override
@@ -35,6 +36,11 @@ public class ExampleAutoOp extends BaseAutoOp {
 
         while (opModeIsActive()) {
             //TODO: should include getter under prometheus instead of this?
+            ((GlyphSystem) prometheus.getSubsystem(GlyphSystem.class)).initServos();
+
+            ((GlyphSystem) prometheus.getSubsystem(GlyphSystem.class)).closeLowers();
+
+            sleep(1000);
 
             //Init Jewel Servo
             ((JewelSensorSystem) prometheus.getSubsystem(JewelSensorSystem.class)).initializeServo();
@@ -46,65 +52,95 @@ public class ExampleAutoOp extends BaseAutoOp {
 
             //Detect Jewel Color and depending on color make specific moves
             if (((JewelSensorSystem) prometheus.getSubsystem(JewelSensorSystem.class)).getJewel()
-                    .equals(getAllianceProperties().getAllianceProperty(AllianceProperties.AllianceProperty.JEWEL_COLOR))) {
+                    .equals(getAllianceProperties().getAllianceProperty(AllianceProperties.AllianceProperty.OPPOSITE_JEWEL_COLOR))) {
 
-                //Drive 12 in. East to knock right ball
+                //Drive 24 in. East to knock right ball
                 ((DriveSystem) prometheus.getSubsystem(DriveSystem.class)).getMovementController()
-                        .move(Directions.EAST, //TODO: Def not going to work bc encoders
-                                24 / 3 * Math.sqrt(5),
-                                0.8,
-                                new PioTimer(ElapsedTime.Resolution.SECONDS, 3, 1),
+                        .move(Directions.NORTH, //TODO: Def not going to work bc encoders
+                                24 / 2,
+                                0.5,
+                                new PioTimer(ElapsedTime.Resolution.SECONDS, 5, 1),
                                 PIDComplexity.LOW);
 
                 sleep(2000);
 
+                ((JewelSensorSystem) prometheus.getSubsystem(JewelSensorSystem.class)).resetServo();
+                sleep(1000);
+
+                ((DriveSystem) prometheus.getSubsystem(DriveSystem.class)).getMovementController()
+                        .rotate(null,
+                                -1, //should be 0 TODO: Create mech to use the
+                                null,
+                                PIDComplexity.NONE);
+
+                sleep(2000);
+
+
                 //Drive 24 in North to move away from board when going East
                 ((DriveSystem) prometheus.getSubsystem(DriveSystem.class)).getMovementController()
-                        .move(Directions.NORTH,
-                                24 / 3,
-                                0.8,
-                                new PioTimer(ElapsedTime.Resolution.SECONDS, 3, 1),
+                        .move(Directions.WEST,
+                                24 / 2 * Math.sqrt(2),
+                                0.5,
+                                new PioTimer(ElapsedTime.Resolution.SECONDS, 5, 1),
                                 PIDComplexity.LOW);
 
                 sleep(1500);
 
-                //Rotate 90
-                ((DriveSystem) prometheus.getSubsystem(DriveSystem.class)).getMovementController()
-                        .rotateTo(-90, null, PIDComplexity.NONE);
-
-
             } else if (((JewelSensorSystem) prometheus.getSubsystem(JewelSensorSystem.class)).getJewel()
-                    .equals(getAllianceProperties().getAllianceProperty(AllianceProperties.AllianceProperty.OPPOSITE_JEWEL_COLOR))) {
+                    .equals(getAllianceProperties().getAllianceProperty(AllianceProperties.AllianceProperty.JEWEL_COLOR))) {
 
-                //Drive 12 in. West to knock left ball
+                //Drive 24 in. South to knock ball
                 ((DriveSystem) prometheus.getSubsystem(DriveSystem.class)).getMovementController()
-                        .move(Directions.WEST, //TODO: Def not going to work bc encoders
-                                24 / 3 * Math.sqrt(5),
-                                0.8,
-                                new PioTimer(ElapsedTime.Resolution.SECONDS, 3, 1),
-                                PIDComplexity.LOW);
-
-                sleep(2000);
-
-                //Drive 24 in North to move away from board when going East
-                ((DriveSystem) prometheus.getSubsystem(DriveSystem.class)).getMovementController()
-                        .move(Directions.NORTH,
-                                24 / 3,
-                                0.8,
-                                new PioTimer(ElapsedTime.Resolution.SECONDS, 3, 1),
+                        .move(Directions.SOUTH, //TODO: Def not going to work bc encoders
+                                24 / 2,
+                                0.5,
+                                new PioTimer(ElapsedTime.Resolution.SECONDS, 5, 1),
                                 PIDComplexity.LOW);
 
                 sleep(2000);
 
                 ((JewelSensorSystem) prometheus.getSubsystem(JewelSensorSystem.class)).resetServo();
 
-                sleep(1500);
+                sleep(1000);
 
-                //Rotate 90
                 ((DriveSystem) prometheus.getSubsystem(DriveSystem.class)).getMovementController()
-                        .rotateTo(-90, null, PIDComplexity.NONE);
+                        .rotate(null,
+                                0,
+                                null,
+                                PIDComplexity.NONE);
 
+                sleep(2000);
+
+                ((DriveSystem) prometheus.getSubsystem(DriveSystem.class)).getMovementController()
+                        .move(Directions.WEST,
+                                24 / 2 * Math.sqrt(5),
+                                0.8,
+                                new PioTimer(ElapsedTime.Resolution.SECONDS, 5, 1),
+                                PIDComplexity.LOW);
+
+                sleep(2000);
             }
+
+            //Open Lower Glyph
+            ((GlyphSystem) prometheus.getSubsystem(GlyphSystem.class)).openLowers();
+
+            ((DriveSystem) prometheus.getSubsystem(DriveSystem.class)).getMovementController()
+                    .move(Directions.NORTH, //TODO: Def not going to work bc encoders
+                            8 / 2,
+                            0.5,
+                            new PioTimer(ElapsedTime.Resolution.SECONDS, 3, 1),
+                            PIDComplexity.LOW);
+
+            sleep(2000);
+
+            ((DriveSystem) prometheus.getSubsystem(DriveSystem.class)).getMovementController()
+                    .move(Directions.SOUTH, //TODO: Def not going to work bc encoders
+                            4 / 2,
+                            0.5,
+                            new PioTimer(ElapsedTime.Resolution.SECONDS, 2, 1),
+                            PIDComplexity.LOW);
+
+            sleep(2000);
 
             stop();
         }

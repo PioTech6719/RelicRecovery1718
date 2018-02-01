@@ -107,21 +107,19 @@ public class IMURotationTest extends LinearOpMode {
                 if (90 - posCurrHeading > 180) {
                     //Rotate CCW
                     //mb chg curr to posHeading
-                    while (Math.abs(currHeading - 90) > 5 && opModeIsActive()) {
+                    while (Math.abs(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - 90) > 5 && opModeIsActive()) {
                         frontLeft.setPower(0.3);
                         frontRight.setPower(-0.3);
                         backLeft.setPower(0.3);
                         backRight.setPower(-0.3);
-                        currHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
                     }
                 } else if (90 - posCurrHeading < 180) {
                     //Rotate CW
-                    while (Math.abs(currHeading - 90) > 5 && opModeIsActive()) {
+                    while (Math.abs(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - 90) > 5 && opModeIsActive()) {
                         frontLeft.setPower(-0.3);
                         frontRight.setPower(0.3);
                         backLeft.setPower(-0.3);
                         backRight.setPower(0.3);
-                        currHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
                     }
                 }
 

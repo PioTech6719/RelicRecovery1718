@@ -8,8 +8,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.Quaternion;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.hardware.consts.PrometheusConstants;
@@ -23,7 +23,7 @@ import java.util.Locale;
 public class GyroSensorSystem extends Subsystem {
 
     private BNO055IMU gyroSensor = null;
-    private Orientation angles;
+    private double[] angles;
     private Acceleration gravity;
 
     private double zeroPosition = 0;
@@ -75,6 +75,12 @@ public class GyroSensorSystem extends Subsystem {
         gyroSensor.startAccelerationIntegration(new Position(), new Velocity(), 100);
     }
 
+    public double adjustAngle(double angle) {
+        while (angle > 180) angle -= 360;
+        while (angle <= -180) angle += 360;
+        return angle;
+    }
+
     /**
      * Return heading in 0-180 (going CCW) & 0-(-180) (going CW) format
      *
@@ -82,7 +88,7 @@ public class GyroSensorSystem extends Subsystem {
      */
     public double getHeading() {
         updateValues();
-        return angles.firstAngle - zeroPosition;
+        return angles[0] - zeroPosition;
     }
 
     /**
@@ -94,12 +100,12 @@ public class GyroSensorSystem extends Subsystem {
     public double getAbsoluteHeading() {
         updateValues();
 
-        double currentAbsoluteAngle = angles.firstAngle;
+        double currentAbsoluteAngle = angles[0];
 
-        if (angles.firstAngle >= 0 && angles.firstAngle < 180) {
-            currentAbsoluteAngle = angles.firstAngle + 180;
-        } else if (angles.firstAngle < 0 && angles.firstAngle >= -180) {
-            currentAbsoluteAngle = Math.abs(angles.firstAngle);
+        if (angles[0] >= 0 && angles[0] < 180) {
+            currentAbsoluteAngle = angles[0] + 180;
+        } else if (angles[0] < 0 && angles[0] >= -180) {
+            currentAbsoluteAngle = Math.abs(angles[0]);
         }
 
         return currentAbsoluteAngle - initialZeroPosition;
@@ -107,7 +113,7 @@ public class GyroSensorSystem extends Subsystem {
 
     public double getPureHeading() {
         updateValues();
-        return angles.firstAngle;
+        return angles[0];
     }
 
     public double getRate() {
@@ -131,7 +137,17 @@ public class GyroSensorSystem extends Subsystem {
     }
 
     private void updateValues() {
-        angles = gyroSensor.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        Quaternion quatAngles = gyroSensor.getQuaternionOrientation();
+        double w = quatAngles.w;
+        double x = quatAngles.x;
+        double y = quatAngles.y;
+        double z = quatAngles.z;
+
+        double roll = Math.atan2(2 * (w * x + y * z), 1 - 2 * (x * x + y * y)) * 180.0 / Math.PI;
+        double pitch = Math.asin(2 * (w * y - x * z)) * 180.0 / Math.PI;
+        double yaw = Math.atan2(2 * (w * z + x * y), 1 - 2 * (y * y + z * z)) * 180.0 / Math.PI;
+
+        angles = new double[]{yaw, pitch, roll};
         gravity = gyroSensor.getGravity();
     }
 
@@ -178,22 +194,40 @@ public class GyroSensorSystem extends Subsystem {
                 });
 
         Robot.getOpMode().telemetry.addLine()
-                .addData("Heading : ", new Func<String>() {
+                .addData("Heading : ", new Func<Double>() {
                     @Override
-                    public String value() {
-                        return formatAngle(angles.angleUnit, angles.firstAngle);
+                    public Double value() {
+                        return angles[0];
                     }
                 })
-                .addData("Roll : ", new Func<String>() {
+                .addData("Absolute Heading : ", new Func<Double>() {
                     @Override
-                    public String value() {
-                        return formatAngle(angles.angleUnit, angles.secondAngle);
+                    public Double value() {
+                        return getAbsoluteHeading();
                     }
                 })
-                .addData("Pitch : ", new Func<String>() {
+                .addData("Adjusted Pure Heading : ", new Func<Double>() {
                     @Override
-                    public String value() {
-                        return formatAngle(angles.angleUnit, angles.thirdAngle);
+                    public Double value() {
+                        return adjustAngle(angles[0]);
+                    }
+                }).addData("Real Heading: ", new Func<Float>() {
+            @Override
+            public Float value() {
+                return gyroSensor.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+            }
+        })
+
+                .addData("Roll : ", new Func<Double>() {
+                    @Override
+                    public Double value() {
+                        return angles[2];
+                    }
+                })
+                .addData("Pitch : ", new Func<Double>() {
+                    @Override
+                    public Double value() {
+                        return angles[1];
                     }
                 });
 
@@ -213,13 +247,5 @@ public class GyroSensorSystem extends Subsystem {
                                         + gravity.zAccel * gravity.zAccel));
                     }
                 });
-    }
-
-    private String formatAngle(AngleUnit angleUnit, double angle) {
-        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
-    }
-
-    private String formatDegrees(double degrees) {
-        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 }

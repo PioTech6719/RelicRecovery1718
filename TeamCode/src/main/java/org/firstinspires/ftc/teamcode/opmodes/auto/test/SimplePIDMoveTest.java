@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.auto.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.Directions;
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.teamcode.subsystem.drive.drivecontroller.PID.PIDCom
 import org.firstinspires.ftc.teamcode.utils.PioTimer;
 
 @Autonomous(name = "Sensor Test - SimplePID Move", group = "test")
+@Disabled
 public class SimplePIDMoveTest extends BaseAutoOp {
 
     private Alliance alliance = Alliance.BLUE;

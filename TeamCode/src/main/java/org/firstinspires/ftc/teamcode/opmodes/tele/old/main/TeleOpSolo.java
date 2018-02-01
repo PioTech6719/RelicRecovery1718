@@ -121,9 +121,9 @@ public class TeleOpSolo extends OpMode {
 
         //Manual Lift Control
         if (-gamepad1.left_stick_y > Constants.GAMEPAD_THRESHOLD) {
-            robot.liftMotor.setPower(-0.7);
+            robot.liftMotor.setPower(-1.0);
         } else if (-gamepad1.left_stick_y < -Constants.GAMEPAD_THRESHOLD) {
-            robot.liftMotor.setPower(0.7);
+            robot.liftMotor.setPower(1.0);
         } else {
             robot.liftMotor.setPower(0);
         }

@@ -52,12 +52,12 @@ public class JewelSensorSystem extends Subsystem {
     }
 
     public void initializeServo() {
-        jewelArmServo.setPosition(0.5);
+        jewelArmServo.setPosition(0.3);
         initJewelArm = true;
     }
 
     public void resetServo() {
-        jewelArmServo.setPosition(0.5);
+        jewelArmServo.setPosition(0.3);
 
         PioTimer pioTimer = new PioTimer(ElapsedTime.Resolution.SECONDS, 1, 0); //useful or no?
         while (!pioTimer.isFinished() && !Status.isStopRequested()) {
@@ -65,7 +65,7 @@ public class JewelSensorSystem extends Subsystem {
     }
 
     public void dropServo() {
-        jewelArmServo.setPosition(1.0);
+        jewelArmServo.setPosition(0.85);
 
         PioTimer pioTimer = new PioTimer(ElapsedTime.Resolution.SECONDS, 1, 0);
         while (!pioTimer.isFinished() && !Status.isStopRequested()) {

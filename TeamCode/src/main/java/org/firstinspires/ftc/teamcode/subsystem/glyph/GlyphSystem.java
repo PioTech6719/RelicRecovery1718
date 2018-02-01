@@ -77,20 +77,20 @@ public class GlyphSystem extends Subsystem {
     }
 
     public void initServos() {
-        upperLeftServo.setPosition(0.80);
-        upperRightServo.setPosition(0.30);
-        lowerLeftServo.setPosition(0.15);
-        lowerRightServo.setPosition(0.81);
+        upperLeftServo.setPosition(0.06);
+        upperRightServo.setPosition(0.44);
+        lowerLeftServo.setPosition(0.13);
+        lowerRightServo.setPosition(0.78);
     }
 
     public void openLowers() {
-        lowerLeftServo.setPosition(0.15);
-        lowerRightServo.setPosition(0.81);
+        lowerLeftServo.setPosition(0.13);
+        lowerRightServo.setPosition(0.78);
     }
 
     public void openUppers() {
-        upperLeftServo.setPosition(0.80);
-        upperRightServo.setPosition(0.30);
+        upperLeftServo.setPosition(0.06);
+        upperRightServo.setPosition(0.44);
     }
 
     public void closeLowers() {
@@ -99,7 +99,7 @@ public class GlyphSystem extends Subsystem {
     }
 
     public void closeUppers() {
-        upperLeftServo.setPosition(0.93);
+        upperLeftServo.setPosition(0.34);
         upperRightServo.setPosition(0.20);
     }
 }

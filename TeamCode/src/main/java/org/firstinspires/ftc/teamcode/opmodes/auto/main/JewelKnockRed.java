@@ -45,15 +45,15 @@ public class JewelKnockRed extends BaseAutoOp {
             if (((JewelSensorSystem) prometheus.getSubsystem(JewelSensorSystem.class)).getJewel()
                     .equals(getAllianceProperties().getAllianceProperty(AllianceProperties.AllianceProperty.OPPOSITE_JEWEL_COLOR))) {
 
-                telemetry.addData("Jewel", "Correct Color: Red");
+                telemetry.addData("Jewel", "Correct Color: Blue");
                 telemetry.update();
 
-                //Drive 12 in. West to knock left ball
+                //Drive 24 in. North to knock left ball
                 ((DriveSystem) prometheus.getSubsystem(DriveSystem.class)).getMovementController()
-                        .move(Directions.EAST,
-                                24 / 3 * Math.sqrt(5),
-                                0.8,
-                                new PioTimer(ElapsedTime.Resolution.SECONDS, 3, 1),
+                        .move(Directions.NORTH,
+                                24 / 2,
+                                0.5,
+                                new PioTimer(ElapsedTime.Resolution.SECONDS, 5, 1),
                                 PIDComplexity.LOW);
 
                 sleep(2000);
@@ -63,16 +63,18 @@ public class JewelKnockRed extends BaseAutoOp {
                 telemetry.addData("Jewel", "Opposite Color: Red");
                 telemetry.update();
 
-                //Drive 12 in. East to knock right ball
+                //Drive 24 in. South to knock right ball
                 ((DriveSystem) prometheus.getSubsystem(DriveSystem.class)).getMovementController()
-                        .move(Directions.WEST,
-                                24 / 3 * Math.sqrt(5),
-                                0.8,
-                                new PioTimer(ElapsedTime.Resolution.SECONDS, 3, 1),
+                        .move(Directions.SOUTH,
+                                24 / 2,
+                                0.5,
+                                new PioTimer(ElapsedTime.Resolution.SECONDS, 5, 1),
                                 PIDComplexity.LOW);
 
                 sleep(2000);
             }
+
+            ((JewelSensorSystem) prometheus.getSubsystem(JewelSensorSystem.class)).resetServo();
 
             stop();
         }

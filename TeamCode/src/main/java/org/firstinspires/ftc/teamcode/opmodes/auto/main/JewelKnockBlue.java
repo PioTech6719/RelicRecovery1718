@@ -50,10 +50,10 @@ public class JewelKnockBlue extends BaseAutoOp {
 
                 //Drive 12 in. West to knock left ball
                 ((DriveSystem) prometheus.getSubsystem(DriveSystem.class)).getMovementController()
-                        .move(Directions.EAST,
-                                24 / 3 * Math.sqrt(5),
+                        .move(Directions.NORTH,
+                                24 / 2,
                                 0.8,
-                                new PioTimer(ElapsedTime.Resolution.SECONDS, 3, 1),
+                                new PioTimer(ElapsedTime.Resolution.SECONDS, 5, 1),
                                 PIDComplexity.LOW);
 
                 sleep(2000);
@@ -65,10 +65,10 @@ public class JewelKnockBlue extends BaseAutoOp {
 
                 //Drive 12 in. East to knock right ball
                 ((DriveSystem) prometheus.getSubsystem(DriveSystem.class)).getMovementController()
-                        .move(Directions.WEST,
-                                24 / 3 * Math.sqrt(5),
+                        .move(Directions.SOUTH,
+                                24 / 2,
                                 0.8,
-                                new PioTimer(ElapsedTime.Resolution.SECONDS, 3, 1),
+                                new PioTimer(ElapsedTime.Resolution.SECONDS, 5, 1),
                                 PIDComplexity.LOW);
 
                 sleep(2000);

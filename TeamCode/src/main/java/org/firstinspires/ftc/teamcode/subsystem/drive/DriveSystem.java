@@ -28,7 +28,7 @@ public class DriveSystem extends Subsystem {
 
     private MovementController movementController = null; //use multiple systems at once or nah
 
-    private double DRIVE_GEAR_REDUCTION = 2.0;
+    private double DRIVE_GEAR_REDUCTION = 2 / 3;
     private double AUTO_SPEED = 0.5;
 
     //TODO: Add null checks everywhere

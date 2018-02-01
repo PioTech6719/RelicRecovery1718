@@ -104,11 +104,11 @@ public class Pionizer {
     }
 
     public void initServos() {
-        upperLeftServo.setPosition(0.8);
-        upperRightServo.setPosition(0.3);
-        lowerLeftServo.setPosition(0.15);
-        lowerRightServo.setPosition(0.81);
-        ballPush.setPosition(0.5);
+        upperLeftServo.setPosition(0.06);
+        upperRightServo.setPosition(0.44);
+        lowerLeftServo.setPosition(0.13);
+        lowerRightServo.setPosition(0.78);
+        ballPush.setPosition(0.3);
     }
 
     public void initGyro() {
@@ -243,31 +243,31 @@ public class Pionizer {
     }
 
     public void ballArmReset() {
-        ballPush.setPosition(0.5);
+        ballPush.setPosition(0.3);
     }
 
     public void ballArmUp() {
-        ballPush.setPosition(0.5);
+        ballPush.setPosition(0.3);
     }
 
     //TODO: Don't smash arm against wall. go slowly towards target
     public void ballArmDown() {
-        ballPush.setPosition(0.9);
+        ballPush.setPosition(0.86);
     }
 
     public void openUpperGlyphArms() {
-        upperLeftServo.setPosition(0.8);
-        upperRightServo.setPosition(0.3);
+        upperLeftServo.setPosition(0.06);
+        upperRightServo.setPosition(0.44);
     }
 
     public void closeUpperGlyphArms() {
-        upperLeftServo.setPosition(0.93);
+        upperLeftServo.setPosition(0.34);
         upperRightServo.setPosition(0.20);
     }
 
     public void openLowerGlyphArms() {
-        lowerLeftServo.setPosition(0.15);
-        lowerRightServo.setPosition(0.81);
+        lowerLeftServo.setPosition(0.13);
+        lowerRightServo.setPosition(0.78);
     }
 
     public void closeLowerGlyphArms() {

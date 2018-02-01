@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.hardware.Directions;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
-import org.firstinspires.ftc.teamcode.hardware.consts.PrometheusConstants;
 import org.firstinspires.ftc.teamcode.subsystem.drive.DriveSystem;
 import org.firstinspires.ftc.teamcode.subsystem.drive.drivecontroller.PID.PIDComplexity;
 import org.firstinspires.ftc.teamcode.subsystem.drive.drivecontroller.PID.consts.CustomPIDConstants;
@@ -266,7 +265,7 @@ public class EncoderGyroMovementController implements MovementController {
             clicksRemaining = (int) (target - averageClicks);
             inchesRemaining = clicksRemaining / TICKS_PER_INCH;
 
-            power = driveSpeed * inchesRemaining * new CustomPIDConstants().setKP(0.6).getKP();
+            power = driveSpeed * inchesRemaining * new CustomPIDConstants().setKP(0.27).getKP();
             power = Range.clip(power, -1, 1);
 
             switch (direction) {
@@ -355,7 +354,8 @@ public class EncoderGyroMovementController implements MovementController {
 
         if (pidComplexity.equals(PIDComplexity.NONE)) {
 
-            rotateTo(angle);
+//            rotateTo(angle); //why?
+            rotateToAndReset(angle);
 
         } else if (pidComplexity.equals(PIDComplexity.LOW)) {
 
@@ -376,34 +376,29 @@ public class EncoderGyroMovementController implements MovementController {
 
     }
 
-    public void rotateTo(double desiredHeading) { //mbjust use and chg constant.tolerance for now
-        robot.resetMotorsMode(DcMotor.RunMode.RUN_USING_ENCODER, leftFront, leftRear,
+    public void rotateToAndReset(double desiredHeading) {
+        robot.resetMotorsMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER, leftFront, leftRear,
                 rightFront, rightRear);
 
         GyroSensorSystem gyroSensorSystem = ((GyroSensorSystem) robot.getSubsystem(GyroSensorSystem.class));
-        double currHeading = gyroSensorSystem.getPureHeading();
 
-        //ConvertToPosHeading.
-        double posCurrHeading = (currHeading >= 0) ? currHeading : currHeading + 360;
-
-        if (desiredHeading - posCurrHeading > 180) {
-            //Rotate CCW
-            //mb chg curr to posHeading
-            while (Math.abs(currHeading - desiredHeading) > PrometheusConstants.TOLERANCE && !Status.isStopRequested()) {
-                leftFront.setPower(0.375);
-                rightFront.setPower(-0.375);
-                leftRear.setPower(0.375);
-                rightRear.setPower(-0.375);
-                currHeading = gyroSensorSystem.getPureHeading();
+        //If desired heading is negative, rotate CW
+        if (desiredHeading < 0) {
+            //rotate CW
+            while (Math.abs(Math.abs(gyroSensorSystem.getHeading()) - Math.abs(desiredHeading)) > 5) {
+                leftFront.setPower(0.25);
+                rightFront.setPower(-0.25);
+                leftRear.setPower(0.25);
+                rightRear.setPower(-0.25);
             }
-        } else if (desiredHeading - posCurrHeading < 180) {
-            //Rotate CW
-            while (Math.abs(currHeading - desiredHeading) > PrometheusConstants.TOLERANCE && !Status.isStopRequested()) {
-                leftFront.setPower(-0.375);
-                rightFront.setPower(0.375);
-                leftRear.setPower(-0.375);
-                rightRear.setPower(0.375);
-                currHeading = gyroSensorSystem.getPureHeading();
+            //If desired heading is positive, rotate CCW
+        } else if (desiredHeading > 0) {
+            //rotate CCW
+            while (Math.abs(Math.abs(gyroSensorSystem.getHeading()) - Math.abs(desiredHeading)) > 5) {
+                leftFront.setPower(-0.25);
+                rightFront.setPower(0.25);
+                leftRear.setPower(-0.25);
+                rightRear.setPower(0.25);
             }
         }
 
@@ -411,7 +406,45 @@ public class EncoderGyroMovementController implements MovementController {
         rightFront.setPower(0);
         leftRear.setPower(0);
         rightRear.setPower(0);
+
+        gyroSensorSystem.resetAngles();
     }
+
+    //convert to poscurrheading was for finding shortest path but might not be needed
+//    public void rotateTo(double desiredHeading) { //mbjust use and chg constant.tolerance for now
+//        robot.resetMotorsMode(DcMotor.RunMode.RUN_USING_ENCODER, leftFront, leftRear,
+//                rightFront, rightRear);
+//
+//        GyroSensorSystem gyroSensorSystem = ((GyroSensorSystem) robot.getSubsystem(GyroSensorSystem.class));
+//        double currHeading = gyroSensorSystem.getHeading();
+//
+//        //ConvertToPosHeading.
+//        double posCurrHeading = (currHeading >= 0) ? currHeading : currHeading + 360;
+//
+//        if (desiredHeading - posCurrHeading > 180) {
+//            //Rotate CCW
+//            //mb chg curr to posHeading
+//            while (Math.abs(gyroSensorSystem.getHeading() - desiredHeading) > PrometheusConstants.TOLERANCE && !Status.isStopRequested()) {
+//                leftFront.setPower(0.375);
+//                rightFront.setPower(-0.375);
+//                leftRear.setPower(0.375);
+//                rightRear.setPower(-0.375);
+//            }
+//        } else if (desiredHeading - posCurrHeading < 180) {
+//            //Rotate CW
+//            while (Math.abs(gyroSensorSystem.getHeading() - desiredHeading) > PrometheusConstants.TOLERANCE && !Status.isStopRequested()) {
+//                leftFront.setPower(-0.375);
+//                rightFront.setPower(0.375);
+//                leftRear.setPower(-0.375);
+//                rightRear.setPower(0.375);
+//            }
+//        }
+//
+//        leftFront.setPower(0);
+//        rightFront.setPower(0);
+//        leftRear.setPower(0);
+//        rightRear.setPower(0);
+//    }
 
     /**
      * Rotates the robot by calculating the difference between the desired angle and the current
@@ -521,6 +554,7 @@ public class EncoderGyroMovementController implements MovementController {
     }
 
     /**
+     * TODO: REPLACE
      * Rotates to a certain absolute heading from 0-360 by calculating absolute value difference
      * between desired and current heading.
      * Limitation: Currently may not use the fastest path to achieve target.
@@ -538,18 +572,26 @@ public class EncoderGyroMovementController implements MovementController {
         //Default value to prevent NPE
         Directions rotationDirection = Directions.ROTATE_CW;
 
-        if (targetAngle > gyroSensorSystem.getAbsoluteHeading()) {
+        if (targetAngle > gyroSensorSystem.getHeading()) {
             rotationDirection = Directions.ROTATE_CW;
-        } else if (targetAngle < gyroSensorSystem.getAbsoluteHeading()) {
+        } else if (targetAngle < gyroSensorSystem.getHeading()) {
             rotationDirection = Directions.ROTATE_CCW;
         }
 
         rotate(rotationDirection,
-                Math.abs(targetAngle) - Math.abs(gyroSensorSystem.getAbsoluteHeading()),
+                Math.abs(targetAngle) - Math.abs(gyroSensorSystem.getHeading()),
                 timer,
                 pidComplexity);
     }
 
+    /**
+     * TODO: REPLACE
+     *
+     * @param targetAngle
+     * @param driveSpeed
+     * @param timer
+     * @param pidComplexity
+     */
     @Override
     public void rotateTo(double targetAngle, double driveSpeed, PioTimer timer, PIDComplexity pidComplexity) {
         //Double instantiation in this and rotate()
